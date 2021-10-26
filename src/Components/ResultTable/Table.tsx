@@ -1,10 +1,10 @@
-import React from 'react';
+import { FC } from 'react';
 
 type TableProps = {
 	children: any;
 };
 
-const Table = ({ children }: TableProps): JSX.Element => {
+const Table: FC<TableProps> = ({ children }) => {
 	return <table id='table'>{children}</table>;
 };
 

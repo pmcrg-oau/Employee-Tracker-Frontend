@@ -1,10 +1,14 @@
-import React from 'react';
+import { FC } from 'react';
 
 import './Sidebar.styles.scss';
 
-const Sidebar = (): JSX.Element => {
+type SidebarProps = {
+	isSidebarExpanded: boolean;
+}
+
+const Sidebar: FC<SidebarProps> = ({ isSidebarExpanded }) => {
 	return (
-		<section id='sidebar'>
+		<section id='sidebar' className={isSidebarExpanded ? 'expand' : ''}>
 			<div className='sidebar__logo'></div>
 			<nav className='sidebar__navbar'>
 				<ul>

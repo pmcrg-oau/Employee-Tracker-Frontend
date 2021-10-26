@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai';
@@ -19,7 +19,7 @@ type FormValues = {
 	password: string;
 };
 
-const Login = (): JSX.Element => {
+const Login: FC = () => {
 	const [passwordType, setPasswordType] = useState<string>('password');
 	const [buttonActive, setButtonActive] = useState<boolean>(false);
 	const passwordDiv = useRef<HTMLDivElement>(null);

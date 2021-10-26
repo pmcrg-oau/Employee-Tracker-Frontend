@@ -1,10 +1,10 @@
-import React from 'react';
+import { FC } from 'react';
 
 type TableBodyProps = {
 	children: any;
 };
 
-const TableBody = ({ children }: TableBodyProps): JSX.Element => {
+const TableBody: FC<TableBodyProps> = ({ children }) => {
 	return <tbody className='table__body'>{children}</tbody>;
 };
 

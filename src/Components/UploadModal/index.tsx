@@ -1,12 +1,15 @@
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, FC, SetStateAction, useState } from 'react';
 
+import FileDragAndDropUploader from './FileDragAndDropUploader';
 import './UploadModal.styles.scss';
 
 type UploadModalProps = {
 	setShowUploadModal: Dispatch<SetStateAction<boolean>>;
 };
 
-const UploadModal = ({ setShowUploadModal }: UploadModalProps): JSX.Element => {
+const UploadModal: FC<UploadModalProps> = ({ setShowUploadModal }) => {
+    const [file, setFile] = useState<File | null>(null);
+
 	return (
 		<section className='upload__modal'>
 			<div className='upload__modal__content'>
@@ -14,19 +17,10 @@ const UploadModal = ({ setShowUploadModal }: UploadModalProps): JSX.Element => {
 					<button className='active'>Upload</button>
 				</header>
 
-				<div className='upload__modal__content__body'>
-                    <h2>Drag files here</h2>
-                    <p>-- or --</p>
-                    <form onSubmit={(e) => e.preventDefault()}>
-                        <label htmlFor="spreadsheet">
-                            <button>select files from your device</button>
-                        </label>
-                        <input type="file" name="spreadsheet" id="spreadsheet" hidden/>
-                    </form>
-                </div>
+				<FileDragAndDropUploader file={file} setFile={setFile}/>
 
 				<footer className='upload__modal__content__footer'>
-					<button className='upload'>Upload</button>
+					<button className='upload' disabled={!file}>Upload</button>
 					<button className='cancel' onClick={() => setShowUploadModal(false)}>
 						Cancel
 					</button>

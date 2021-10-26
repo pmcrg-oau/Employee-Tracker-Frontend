@@ -1,10 +1,11 @@
-import React from 'react';
+import { FC } from 'react';
+import { TableRowProps } from './TableRow';
 
 type TableHeaderProps = {
-	children: JSX.Element;
+	children: FC<TableRowProps> | any;
 };
 
-const TableHeader = ({ children }: TableHeaderProps): JSX.Element => {
+const TableHeader: FC<TableHeaderProps> = ({ children }) => {
 	return <thead className='table__header'>{children}</thead>;
 };
 

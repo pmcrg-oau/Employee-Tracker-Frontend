@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
 import Dropdown from 'react-dropdown';
 
 import ResultTable from '../ResultTable';
@@ -8,14 +8,20 @@ import 'react-dropdown/style.css';
 import './MainContent.styles.scss';
 
 const options: Array<{ value: string; label: string }> = [
-	{ value: 'UserId', label: 'Status - UserId' },
 	{ value: 'FirstName', label: 'Status - Firstname' },
 	{ value: 'Lastname', label: 'Status - Lastname' },
+	{ value: 'UserId', label: 'Status - UserId' },
 ];
 
-const MainContent = (): JSX.Element => {
+type MainContentProps = {
+	isSidebarExpanded: boolean;
+	setIsSidebarExpanded: Dispatch<SetStateAction<boolean>>;
+}
+
+const MainContent: FC<MainContentProps> = ({ isSidebarExpanded, setIsSidebarExpanded }) => {
 	const [tableTop, setTableTop] = useState<boolean>(false);
 	const [showUploadModal, setShowUploadModal] = useState<boolean>(false);
+	const [requiredSort, setRequiredSort] = useState<string>('FirstName');
 
 	useEffect(() => {
 		window.addEventListener('scroll', function (e) {
@@ -50,7 +56,19 @@ const MainContent = (): JSX.Element => {
 			<section id='main__content'>
 				<header className='header'>
 					<button
-						onClick={() => setShowUploadModal((showUploadModal) => !showUploadModal)}
+						className='hamburger'
+						onClick={() =>
+							setIsSidebarExpanded((isSidebarExpanded) => !isSidebarExpanded)
+						}
+					>
+						{isSidebarExpanded ? 'X' : '='}
+					</button>
+
+					<button
+						className={isSidebarExpanded ? 'closed__button' : ''}
+						onClick={() =>
+							setShowUploadModal((showUploadModal) => !showUploadModal)
+						}
 					>
 						+ Upload CSV/XLS
 					</button>
@@ -63,10 +81,10 @@ const MainContent = (): JSX.Element => {
 						<span className='sort__by__text'>Sort By</span>
 						<Dropdown
 							options={options}
+							value={options[0]}
 							className={'custom__dropdown'}
 							controlClassName='custom__dropdown__control'
-							placeholder={'Select Option'}
-							onChange={(option) => console.log(option)}
+							onChange={(option) => setRequiredSort(option.value)}
 							arrowClosed={<i className='fas fa-chevron-down'></i>}
 							arrowOpen={<i className='fas fa-chevron-up'></i>}
 						/>
@@ -85,7 +103,9 @@ const MainContent = (): JSX.Element => {
 				</main>
 			</section>
 
-			{showUploadModal && <UploadModal setShowUploadModal={setShowUploadModal}/>}
+			{showUploadModal && (
+				<UploadModal setShowUploadModal={setShowUploadModal} />
+			)}
 		</>
 	);
 };

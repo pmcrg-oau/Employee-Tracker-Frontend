@@ -1,3 +1,5 @@
+import { FC } from 'react';
+
 import Table from './Table';
 import TableBody from './TableBody';
 import TableHeader from './TableHeader';
@@ -7,7 +9,7 @@ import TableData from './TableData';
 
 import './ResultTable.styles.scss';
 
-const ResultTable = () => {
+const ResultTable: FC = () => {
 	return (
 		<Table>
 			<TableHeader>
@@ -20,7 +22,7 @@ const ResultTable = () => {
 				</TableRow>
 			</TableHeader>
 			<TableBody>
-				<TableRow>
+				<TableRow forTableBody>
 					<TableData text={'1'} />
 					<TableData text={'Uchechukwu Nwafor'} />
 					<TableData text={'nwaforuchechukwu2007@gmail.com'} />
@@ -28,7 +30,7 @@ const ResultTable = () => {
 					<TableData text={'CSC/2016/070'} />
 				</TableRow>
 
-				<TableRow>
+				<TableRow forTableBody>
 					<TableData text={'2'} />
 					<TableData text={'Uchechukwu Nwafor'} />
 					<TableData text={'nwaforuchechukwu2007@gmail.com'} />
@@ -36,7 +38,7 @@ const ResultTable = () => {
 					<TableData text={'CSC/2016/070'} />
 				</TableRow>
 
-				<TableRow>
+				<TableRow forTableBody>
 					<TableData text={'3'} />
 					<TableData text={'Uchechukwu Nwafor'} />
 					<TableData text={'nwaforuchechukwu2007@gmail.com'} />
@@ -44,7 +46,7 @@ const ResultTable = () => {
 					<TableData text={'CSC/2016/070'} />
 				</TableRow>
 
-				<TableRow>
+				<TableRow forTableBody>
 					<TableData text={'4'} />
 					<TableData text={'Uchechukwu Nwafor'} />
 					<TableData text={'nwaforuchechukwu2007@gmail.com'} />
@@ -52,7 +54,7 @@ const ResultTable = () => {
 					<TableData text={'CSC/2016/070'} />
 				</TableRow>
 
-				<TableRow>
+				<TableRow forTableBody>
 					<TableData text={'5'} />
 					<TableData text={'Uchechukwu Nwafor'} />
 					<TableData text={'nwaforuchechukwu2007@gmail.com'} />
@@ -60,7 +62,7 @@ const ResultTable = () => {
 					<TableData text={'CSC/2016/070'} />
 				</TableRow>
 
-				<TableRow>
+				<TableRow forTableBody>
 					<TableData text={'6'} />
 					<TableData text={'Uchechukwu Nwafor'} />
 					<TableData text={'nwaforuchechukwu2007@gmail.com'} />
@@ -68,7 +70,7 @@ const ResultTable = () => {
 					<TableData text={'CSC/2016/070'} />
 				</TableRow>
 
-				<TableRow>
+				<TableRow forTableBody>
 					<TableData text={'7'} />
 					<TableData text={'Uchechukwu Nwafor'} />
 					<TableData text={'nwaforuchechukwu2007@gmail.com'} />
@@ -76,7 +78,7 @@ const ResultTable = () => {
 					<TableData text={'CSC/2016/070'} />
 				</TableRow>
 
-				<TableRow>
+				<TableRow forTableBody>
 					<TableData text={'8'} />
 					<TableData text={'Uchechukwu Nwafor'} />
 					<TableData text={'nwaforuchechukwu2007@gmail.com'} />

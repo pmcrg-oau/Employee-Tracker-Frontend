@@ -27,6 +27,31 @@
 			&:focus {
 				box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 			}
+
+			&.hamburger {
+				background: none;
+				color: black;
+				display: none;
+			}
+		}
+
+		@media screen and (max-width: 600px) {
+			justify-content: space-between;
+			transition: margin 0.4s ease-in-out;
+
+			button {
+				font-size: 1.1rem;
+				transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out;
+
+				&.hamburger {
+					display: block;
+				}
+
+				&.closed__button {
+					opacity: 0;
+					visibility: hidden;
+				}
+			}
 		}
 	}
 
@@ -46,6 +71,10 @@
 				font-size: 1.5rem;
 				color: rgba(0, 0, 0, 0.43);
 				margin-right: 1rem;
+
+				@media screen and (max-width: 600px) {
+					font-size: 1.1rem;
+				}
 			}
 
 			.custom__dropdown {
@@ -66,6 +95,10 @@
 						color: var(--light-black);
 						font-size: 0.9rem;
 					}
+
+					@media screen and (max-width: 600px) {
+						font-size: 0.8rem;
+					}
 				}
 			}
 		}
@@ -82,6 +115,10 @@
 				font-weight: bold;
 				color: rgba(0, 0, 0, 0.59);
 
+				@media screen and (max-width: 600px) {
+					font-size: 0.9rem;
+				}
+
 				.purple {
 					color: var(--Purple);
 				}
@@ -90,11 +127,11 @@
 
 		.results__table {
 			margin: 2rem 0 0;
-            overflow-x: auto;
-            
+			overflow-x: auto;
+
 			&.top {
-                overflow-y: auto;
-                height: 100vh;
+				overflow-y: auto;
+				height: 100vh;
 
 				#table,
 				.table__header,

@@ -1,7 +1,16 @@
 import React from 'react';
+import { configure } from 'axios-hooks'
 import ReactDOM from 'react-dom';
+import LRU from 'lru-cache';
+
+import axios from './config/axios.config';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+
+
+const cache = new LRU({ max: 10 })
+
+configure({ axios, cache })
 
 ReactDOM.render(
   <React.StrictMode>
