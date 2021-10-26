@@ -1,9 +1,10 @@
-import { FC, useEffect, useRef, useState } from 'react';
+import { FC, useContext, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai';
 
 import './LoginSignup.styles.scss';
+import { LoginContext } from '../../Contexts/LoginContext';
 
 /*
     This is the signup page. UI and functionalities would be added here
@@ -25,6 +26,7 @@ const Signup: FC = () => {
 	const [buttonActive, setButtonActive] = useState<boolean>(false);
 	const passwordDiv = useRef<HTMLDivElement>(null);
 	const { register, watch } = useForm<FormValues>();
+	const { setLoggedInUser } = useContext(LoginContext)!;
 
 	// watch for when the username and password values change
 	const watchFields: string[] = watch(['username', 'password']);
@@ -37,6 +39,11 @@ const Signup: FC = () => {
 		} else {
 			return;
 		}
+	};
+
+	const handleSubmit = () => {
+		localStorage.setItem('loggedInUser', JSON.stringify({name: 'Uchechukwu', token: 'jhdvahjvjhdavjhav'}));
+		setLoggedInUser({name: 'Uchechukwu', token: 'jhdvahjvjhdavjhav'});
 	};
 
 	useEffect(() => {
@@ -53,7 +60,7 @@ const Signup: FC = () => {
 			<div className='signup__container'>
 				<h1 className='get__started'>Welcome to Employees Get Information</h1>
 				<div className='arrow__down'>{/* <ArrowDown /> */}</div>
-				<form action='' className='signup__form'>
+				<form action='' className='signup__form' onSubmit={handleSubmit}>
 					<h3 className='follow__up__text'>Signup</h3>
 					<div className='form__group'>
 						<label htmlFor='username'></label>

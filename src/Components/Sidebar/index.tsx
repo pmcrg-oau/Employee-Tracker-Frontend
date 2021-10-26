@@ -1,12 +1,16 @@
-import { FC } from 'react';
+import { FC, useContext } from 'react';
+
+import { LoginContext } from '../../Contexts/LoginContext';
 
 import './Sidebar.styles.scss';
 
 type SidebarProps = {
 	isSidebarExpanded: boolean;
-}
+};
 
 const Sidebar: FC<SidebarProps> = ({ isSidebarExpanded }) => {
+	const { setLoggedInUser } = useContext(LoginContext)!;
+
 	return (
 		<section id='sidebar' className={isSidebarExpanded ? 'expand' : ''}>
 			<div className='sidebar__logo'></div>
@@ -19,7 +23,12 @@ const Sidebar: FC<SidebarProps> = ({ isSidebarExpanded }) => {
 						</button>
 					</li>
 					<li>
-						<button>
+						<button
+							onClick={() => {
+								localStorage.setItem('loggedInUser', JSON.stringify({}));
+								setLoggedInUser({});
+							}}
+						>
 							<i className='fas fa-sign-out-alt'></i>
 							<p>Log out</p>
 						</button>

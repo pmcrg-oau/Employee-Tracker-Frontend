@@ -16,7 +16,7 @@ const ProtectedComponentRoute: FC<ProtectedComponentRouteProps> = ({
 		<Route
 			{...restProps}
 			render={(props) => {
-				return !Object.entries(loggedInUser).length ? (
+				return !!Object.entries(loggedInUser).length ? (
 					<Component {...props} />
 				) : (
 					<Redirect
