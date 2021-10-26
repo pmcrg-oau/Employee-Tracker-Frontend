@@ -1,4 +1,5 @@
 import { FC, useContext, useEffect, useRef, useState } from 'react';
+import useAxios from 'axios-hooks';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai';
@@ -40,9 +41,20 @@ const Login: FC = () => {
 		}
 	};
 
+	const [{ loading }, handleLogin] = useAxios(
+		{
+			url: '/auth/login',
+			method: 'post',
+		},
+		{ manual: true }
+	);
+
 	const handleSubmit = () => {
-		localStorage.setItem('loggedInUser', JSON.stringify({name: 'Uchechukwu', token: 'jhdvahjvjhdavjhav'}));
-		setLoggedInUser({name: 'Uchechukwu', token: 'jhdvahjvjhdavjhav'});
+		localStorage.setItem(
+			'loggedInUser',
+			JSON.stringify({ name: 'Uchechukwu', token: 'jhdvahjvjhdavjhav' })
+		);
+		setLoggedInUser({ name: 'Uchechukwu', token: 'jhdvahjvjhdavjhav' });
 	};
 
 	useEffect(() => {

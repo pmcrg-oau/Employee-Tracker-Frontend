@@ -3,8 +3,8 @@ import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai';
 
-import './LoginSignup.styles.scss';
 import { LoginContext } from '../../Contexts/LoginContext';
+import './LoginSignup.styles.scss';
 
 /*
     This is the signup page. UI and functionalities would be added here
@@ -42,8 +42,11 @@ const Signup: FC = () => {
 	};
 
 	const handleSubmit = () => {
-		localStorage.setItem('loggedInUser', JSON.stringify({name: 'Uchechukwu', token: 'jhdvahjvjhdavjhav'}));
-		setLoggedInUser({name: 'Uchechukwu', token: 'jhdvahjvjhdavjhav'});
+		localStorage.setItem(
+			'loggedInUser',
+			JSON.stringify({ name: 'Uchechukwu', token: 'jhdvahjvjhdavjhav' })
+		);
+		setLoggedInUser({ name: 'Uchechukwu', token: 'jhdvahjvjhdavjhav' });
 	};
 
 	useEffect(() => {

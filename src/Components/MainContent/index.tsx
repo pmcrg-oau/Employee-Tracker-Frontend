@@ -6,6 +6,7 @@ import UploadModal from '../UploadModal';
 
 import 'react-dropdown/style.css';
 import './MainContent.styles.scss';
+import useAxios from 'axios-hooks';
 
 const options: Array<{ value: string; label: string }> = [
 	{ value: 'FirstName', label: 'Status - Firstname' },
@@ -16,12 +17,23 @@ const options: Array<{ value: string; label: string }> = [
 type MainContentProps = {
 	isSidebarExpanded: boolean;
 	setIsSidebarExpanded: Dispatch<SetStateAction<boolean>>;
-}
+};
 
-const MainContent: FC<MainContentProps> = ({ isSidebarExpanded, setIsSidebarExpanded }) => {
+const MainContent: FC<MainContentProps> = ({
+	isSidebarExpanded,
+	setIsSidebarExpanded,
+}) => {
 	const [tableTop, setTableTop] = useState<boolean>(false);
 	const [showUploadModal, setShowUploadModal] = useState<boolean>(false);
 	const [requiredSort, setRequiredSort] = useState<string>('FirstName');
+
+	const [{ loading }, getUsersList] = useAxios(
+		{
+			url: '/users',
+			method: 'get',
+		},
+		{ manual: true }
+	);
 
 	useEffect(() => {
 		window.addEventListener('scroll', function (e) {
@@ -61,7 +73,12 @@ const MainContent: FC<MainContentProps> = ({ isSidebarExpanded, setIsSidebarExpa
 							setIsSidebarExpanded((isSidebarExpanded) => !isSidebarExpanded)
 						}
 					>
-						{isSidebarExpanded ? 'X' : '='}
+						
+						<div id='nav-icon1' className={isSidebarExpanded ? 'open' : ''}>
+							<span></span>
+							<span></span>
+							<span></span>
+						</div>
 					</button>
 
 					<button
