@@ -109,6 +109,10 @@
 						font-size: 1.25rem;
 						line-height: 17px;
 					}
+
+					&.red{
+						border: 1px solid red !important;
+					}
 				}
 
 				.password__eye__div {
@@ -133,6 +137,10 @@
 							box-shadow: none;
 							border: none !important;
 						}
+					}
+
+					&.red{
+						border: 1px solid red !important;
 					}
 
 					input {
@@ -160,6 +168,11 @@
 							display: none;
 						}
 					}
+				}
+
+				.error_message{
+					color: red;
+					font-size: .7rem;
 				}
 			}
 

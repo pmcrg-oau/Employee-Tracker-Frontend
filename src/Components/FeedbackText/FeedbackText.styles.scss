@@ -16,6 +16,11 @@
     color: #fff;
     opacity: 1;
 
+    &.white{
+        background: #fff;
+        color: var(--Dark-blue);
+    }
+
     &:hover {
         cursor: pointer;
     }

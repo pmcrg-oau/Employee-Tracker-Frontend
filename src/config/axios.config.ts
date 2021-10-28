@@ -8,12 +8,13 @@ const axios = Axios.create({
 axios.interceptors.request.use(
 	(config) => {
 		config.url = config.url?.replace(/[^\x20-\x7E]/g, '');
-		const noToken = ['/auth/login', 'auth/reset-password'];
+		const noToken = ['/auth/login', '/auth/register'];
 
 		if (!noToken.some((u) => config.url?.includes(u))) {
-			config.headers!['Authorization'] = `Bearer ${JSON.parse(
-				localStorage.getItem('employee__token') || ''
-			)}`;
+			const loggedInUser = JSON.parse(
+				localStorage.getItem('loggedInUser') || '{}'
+			);
+			config.headers!['Authorization'] = `Bearer ${loggedInUser.token ?? ''}`;
 		}
 
 		config.headers!['Content-Type'] = 'application/json';

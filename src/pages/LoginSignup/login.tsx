@@ -4,8 +4,10 @@ import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai';
 
-import './LoginSignup.styles.scss';
 import { LoginContext } from '../../Contexts/LoginContext';
+import FeedbackText from '../../Components/FeedbackText';
+import Loader from '../../Components/Loader';
+import './LoginSignup.styles.scss';
 
 /*
     This is the login page. UI and functionalities would be added here
@@ -22,10 +24,11 @@ type FormValues = {
 };
 
 const Login: FC = () => {
+	const [message, setMessage] = useState<string>('');
 	const [passwordType, setPasswordType] = useState<string>('password');
 	const [buttonActive, setButtonActive] = useState<boolean>(false);
 	const passwordDiv = useRef<HTMLDivElement>(null);
-	const { register, watch } = useForm<FormValues>();
+	const { register, watch, handleSubmit } = useForm<FormValues>();
 	const { setLoggedInUser } = useContext(LoginContext)!;
 
 	// watch for when the username and password values change
@@ -49,12 +52,22 @@ const Login: FC = () => {
 		{ manual: true }
 	);
 
-	const handleSubmit = () => {
-		localStorage.setItem(
-			'loggedInUser',
-			JSON.stringify({ name: 'Uchechukwu', token: 'jhdvahjvjhdavjhav' })
-		);
-		setLoggedInUser({ name: 'Uchechukwu', token: 'jhdvahjvjhdavjhav' });
+	const onSubmit = async (data: FormValues) => {
+		try {
+			const response = await handleLogin({ data });
+			const loggedInUser = {
+				userId: response.data.data.user._id,
+				username: response?.data?.data?.user?.username,
+				token: response?.data?.data?.token,
+			};
+			localStorage.setItem('loggedInUser', JSON.stringify(loggedInUser));
+			setLoggedInUser(loggedInUser);
+		} catch (error: any) {
+			setMessage(error?.response?.data?.message);
+			setTimeout(() => {
+				setMessage('');
+			}, 3000);
+		}
 	};
 
 	useEffect(() => {
@@ -67,86 +80,84 @@ const Login: FC = () => {
 	}, [watchFields]);
 
 	return (
-		<section id='login'>
-			<div className='login__container'>
-				<h1 className='get__started'>Welcome to Employees Get Information</h1>
-				<div className='arrow__down'>{/* <ArrowDown /> */}</div>
-				<form action='' className='login__form' onSubmit={handleSubmit}>
-					<h3 className='follow__up__text'>Login</h3>
-					<div className='form__group'>
-						<label htmlFor='username'></label>
-						<input
-							type='username'
-							id='username'
-							placeholder='Username'
-							{...register('username', {
-								required: true,
-								// pattern: {
-								// 	value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-								// 	message: 'username field requires an “aiesec.net” mail',
-								// },
-							})}
-							required
-						/>
-						<p className='error_username'></p>
-						<p className='error_username'></p>
-					</div>
-					<div className='form__group'>
-						<label htmlFor='password'></label>
-						<div className='password__eye__div' ref={passwordDiv}>
+		<>
+			{message && <FeedbackText message={message} white />}
+
+			<section id='login'>
+				<div className='login__container'>
+					<h1 className='get__started'>Welcome to Employees Get Information</h1>
+					<div className='arrow__down'>{/* <ArrowDown /> */}</div>
+					<form
+						action=''
+						className='login__form'
+						onSubmit={handleSubmit(onSubmit)}
+					>
+						<h3 className='follow__up__text'>Login</h3>
+						<div className='form__group'>
+							<label htmlFor='username'></label>
 							<input
-								type={passwordType}
-								id='password'
-								placeholder='Password'
-								{...register('password', {
+								type='username'
+								id='username'
+								placeholder='Username'
+								{...register('username', {
 									required: true,
-									pattern: {
-										value:
-											/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-										message:
-											'Password should be at least 8 characters, 1 uppercase letter, 1 lowercase leter, 1 number & 1 Symbol',
-									},
 								})}
-								onFocus={() => focusHandler(focusType.Add)}
-								onBlur={() => focusHandler(focusType.Remove)}
 								required
 							/>
-							<span
-								className={
-									passwordType === 'password' ? 'eye__slash' : 'eye__slash none'
-								}
-								onClick={() => setPasswordType('text')}
-							>
-								<AiFillEyeInvisible />
-							</span>
-							<span
-								className={passwordType === 'text' ? 'eye' : 'eye none'}
-								onClick={() => setPasswordType('password')}
-							>
-								<AiFillEye />
-							</span>
 						</div>
-					</div>
+						<div className='form__group'>
+							<label htmlFor='password'></label>
+							<div className='password__eye__div' ref={passwordDiv}>
+								<input
+									type={passwordType}
+									id='password'
+									placeholder='Password'
+									{...register('password', {
+										required: true,
+									})}
+									onFocus={() => focusHandler(focusType.Add)}
+									onBlur={() => focusHandler(focusType.Remove)}
+									required
+								/>
+								<span
+									className={
+										passwordType === 'password'
+											? 'eye__slash'
+											: 'eye__slash none'
+									}
+									onClick={() => setPasswordType('text')}
+								>
+									<AiFillEyeInvisible />
+								</span>
+								<span
+									className={passwordType === 'text' ? 'eye' : 'eye none'}
+									onClick={() => setPasswordType('password')}
+								>
+									<AiFillEye />
+								</span>
+							</div>
+						</div>
 
-					<button className='submit__button' disabled={!buttonActive}>
-						LOG IN
-					</button>
+						<button className='submit__button' disabled={!buttonActive}>
+							{loading ? <Loader /> : 'LOG IN'}
+						</button>
 
-					<div className='reset__password__link'>
-						<p className='forgot__password'>
-							Don't have an account? &nbsp;
-							<Link to='/signup'>Signup</Link>
-						</p>
+						<div className='reset__password__link'>
+							<p className='forgot__password'>
+								Don't have an account? &nbsp;
+								<Link to='/signup'>Signup</Link>
+							</p>
 
-						<p className='reset__password'>
-							<Link to='/'>ResetPassword</Link>
-						</p>
-					</div>
-				</form>
+							<p className='reset__password'>
+								<Link to='/'>ResetPassword</Link>
+							</p>
+						</div>
+					</form>
 
-				<p className='copyright__text'>© Copyright pmcrg 2021.</p>
-			</div>
-		</section>
+					<p className='copyright__text'>© Copyright pmcrg 2021.</p>
+				</div>
+			</section>
+		</>
 	);
 };
 
