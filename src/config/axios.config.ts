@@ -14,7 +14,8 @@ axios.interceptors.request.use(
 			const loggedInUser = JSON.parse(
 				localStorage.getItem('loggedInUser') || '{}'
 			);
-			config.headers!['Authorization'] = `Bearer ${loggedInUser.token ?? ''}`;
+			const token = loggedInUser.token ?? '';
+			config.headers!['Authorization'] = `Bearer ${token}`;
 		}
 
 		config.headers!['Content-Type'] = 'application/json';

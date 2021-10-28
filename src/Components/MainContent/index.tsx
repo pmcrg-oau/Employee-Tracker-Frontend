@@ -1,12 +1,12 @@
 import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
 import Dropdown from 'react-dropdown';
+import useAxios from 'axios-hooks';
 
 import ResultTable from '../ResultTable';
 import UploadModal from '../UploadModal';
 
 import 'react-dropdown/style.css';
 import './MainContent.styles.scss';
-import useAxios from 'axios-hooks';
 
 const options: Array<{ value: string; label: string }> = [
 	{ value: 'FirstName', label: 'Status - Firstname' },
@@ -17,6 +17,14 @@ const options: Array<{ value: string; label: string }> = [
 type MainContentProps = {
 	isSidebarExpanded: boolean;
 	setIsSidebarExpanded: Dispatch<SetStateAction<boolean>>;
+};
+
+type GetUsersProps = {
+	dir?: string;
+	page: number;
+	limit?: number;
+	search?: string;
+	sortby: string;
 };
 
 const MainContent: FC<MainContentProps> = ({
@@ -35,7 +43,25 @@ const MainContent: FC<MainContentProps> = ({
 		{ manual: true }
 	);
 
+	const getUsers = async (page?: number, search?: string, limit?: number) => {
+		const bodyParams: GetUsersProps = {
+			dir: 'asc',
+			page: page ?? 1,
+			limit: limit ?? 25,
+			search: search ?? '',
+			sortby: requiredSort.toLowerCase(),
+		};
+		try {
+			const response = await getUsersList({ params: bodyParams });
+			console.log(response);
+		} catch (error: any) {
+			console.log(error.response);
+		}
+	};
+
 	useEffect(() => {
+		getUsers();
+
 		window.addEventListener('scroll', function (e) {
 			const resultTableTop = document
 				.querySelector('.results__table')!
@@ -63,6 +89,10 @@ const MainContent: FC<MainContentProps> = ({
 		};
 	}, []);
 
+	useEffect(() => {
+		getUsers(...[, , ,]);
+	}, [requiredSort]);
+
 	return (
 		<>
 			<section id='main__content'>
@@ -73,7 +103,6 @@ const MainContent: FC<MainContentProps> = ({
 							setIsSidebarExpanded((isSidebarExpanded) => !isSidebarExpanded)
 						}
 					>
-						
 						<div id='nav-icon1' className={isSidebarExpanded ? 'open' : ''}>
 							<span></span>
 							<span></span>

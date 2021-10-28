@@ -68,7 +68,6 @@ const Signup: FC = () => {
 			localStorage.setItem('loggedInUser', JSON.stringify(loggedInUser));
 			setLoggedInUser(loggedInUser);
 		} catch (error: any) {
-			console.log(error);
 			setMessage(error?.response?.data?.message);
 			setTimeout(() => {
 				setMessage('');

@@ -1,11 +1,4 @@
-import {
-	createContext,
-	Dispatch,
-	FC,
-	SetStateAction,
-	useEffect,
-	useState,
-} from 'react';
+import { createContext, Dispatch, FC, SetStateAction, useState } from 'react';
 
 export type User = Object;
 
@@ -25,15 +18,6 @@ const LoginContextProvider: FC<LoginContextProviderProps> = ({ children }) => {
 		localStorage.getItem('loggedInUser') || '{}'
 	);
 	const [loggedInUser, setLoggedInUser] = useState<User | {}>(user);
-
-	useEffect(() => {
-		window.addEventListener('storage', (e) => {
-			if (e.key === 'employee__token' && e.newValue === null) {
-				console.log(e.key);
-				setLoggedInUser({});
-			}
-		});
-	}, []);
 
 	return (
 		<LoginContext.Provider value={{ loggedInUser, setLoggedInUser }}>
