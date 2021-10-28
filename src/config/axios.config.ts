@@ -27,16 +27,15 @@ axios.interceptors.request.use(
 	}
 );
 
-// axios.interceptors.response.use(undefined, (err) => {
-// 	if (
-// 		err.response.status === 401 ||
-// 		err.response.data.message === "401 Unauthorized"
-// 	) {
-// 		localStorage.removeItem("ajeo__token");
-// 		localStorage.removeItem("loggedInUser");
-
-// 	}
-// 	return Promise.reject(err);
-// });
+axios.interceptors.response.use(undefined, (err) => {
+	if (
+		err.response.status === 401 ||
+		err.response.data.message === '401 Unauthorized'
+	) {
+		localStorage.setItem('loggedInUser', JSON.stringify({}));
+		window.location.reload();
+	}
+	return Promise.reject(err);
+});
 
 export default axios;
