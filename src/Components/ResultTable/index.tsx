@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import Skeleton from 'react-loading-skeleton';
-import { format } from 'date-fns';
+import { Link } from 'react-router-dom';
 
 import Table from './Table';
 import TableBody from './TableBody';
@@ -27,27 +27,7 @@ const ResultTable: FC<ResultTableProps> = ({ users, loading }) => {
 					<TableHead title={'Firstname'} />
 					<TableHead title={'Othername'} />
 					<TableHead title={'Surname'} />
-					<TableHead title={'Gender'} />
-					<TableHead title={'Marital Status'} />
-					<TableHead title={'Phone'} />
-					<TableHead title={'Email'} />
-					<TableHead title={'D.O.B'} />
-					<TableHead title={'Institution'} />
-					<TableHead title={'Department'} />
-					<TableHead title={'Designation'} />
-					<TableHead title={'Bank'} />
-					<TableHead title={'Account No.'} />
-					<TableHead title={'Sort Code'} />
-					<TableHead title={'Address'} />
-					<TableHead title={'First Appointment'} />
-					<TableHead title={'Present Appointment'} />
-					<TableHead title={'Retirement'} />
-					<TableHead title={'Agency'} />
-					<TableHead title={'Certificate Year'} />
-					<TableHead title={'State'} />
-					<TableHead title={'LGA'} />
-					<TableHead title={'Geo. Zone'} />
-					<TableHead title={'T.I.N'} />
+					<TableHead title={'View Details'} />
 				</TableRow>
 			</TableHeader>
 			<TableBody>
@@ -60,33 +40,9 @@ const ResultTable: FC<ResultTableProps> = ({ users, loading }) => {
 								<TableData text={user.firstname} />
 								<TableData text={user.othername} />
 								<TableData text={user.surname} />
-								<TableData text={user.gender} />
-								<TableData text={user.maritalstatus} />
-								<TableData text={user.phone} />
-								<TableData text={user.email} />
-								<TableData text={format(new Date(user.dob), 'dd/MM/yyyy')} />
-								<TableData text={user.institution} />
-								<TableData text={user.department} />
-								<TableData text={user.designation} />
-								<TableData text={user.bank} />
-								<TableData text={user.account} />
-								<TableData text={user.sortcode} />
-								<TableData text={user.address} />
-								<TableData
-									text={format(new Date(user.firstappointment), 'dd/MM/yyyy')}
-								/>
-								<TableData
-									text={format(new Date(user.presentappointment), 'dd/MM/yyyy')}
-								/>
-								<TableData
-									text={format(new Date(user.retirement), 'dd/MM/yyyy')}
-								/>
-								<TableData text={user.agency} />
-								<TableData text={user.certificateyear} />
-								<TableData text={user.state} />
-								<TableData text={user.lga} />
-								<TableData text={user.geozone} />
-								<TableData text={user.tin} />
+								<TableData text=''>
+									<Link to={`/user/${user._id}`}>View</Link>
+								</TableData>
 							</TableRow>
 						))}
 						{users.length === 0 && (
