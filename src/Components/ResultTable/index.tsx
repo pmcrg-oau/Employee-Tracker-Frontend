@@ -23,6 +23,7 @@ const ResultTable: FC<ResultTableProps> = ({ users, loading }) => {
 			<TableHeader>
 				<TableRow>
 					<TableHead title={'S/N'} />
+					<TableHead title={'File No.'} />
 					<TableHead title={'Firstname'} />
 					<TableHead title={'Othername'} />
 					<TableHead title={'Surname'} />
@@ -31,7 +32,6 @@ const ResultTable: FC<ResultTableProps> = ({ users, loading }) => {
 					<TableHead title={'Phone'} />
 					<TableHead title={'Email'} />
 					<TableHead title={'D.O.B'} />
-					<TableHead title={'File No.'} />
 					<TableHead title={'Institution'} />
 					<TableHead title={'Department'} />
 					<TableHead title={'Designation'} />
@@ -56,6 +56,7 @@ const ResultTable: FC<ResultTableProps> = ({ users, loading }) => {
 						{users.map((user, keyId) => (
 							<TableRow key={user._id} forTableBody>
 								<TableData text={`${keyId + 1}`} />
+								<TableData text={user.fileno} />
 								<TableData text={user.firstname} />
 								<TableData text={user.othername} />
 								<TableData text={user.surname} />
@@ -64,7 +65,6 @@ const ResultTable: FC<ResultTableProps> = ({ users, loading }) => {
 								<TableData text={user.phone} />
 								<TableData text={user.email} />
 								<TableData text={format(new Date(user.dob), 'dd/MM/yyyy')} />
-								<TableData text={user.fileno} />
 								<TableData text={user.institution} />
 								<TableData text={user.department} />
 								<TableData text={user.designation} />

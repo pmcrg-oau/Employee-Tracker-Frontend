@@ -29,8 +29,8 @@ axios.interceptors.request.use(
 
 axios.interceptors.response.use(undefined, (err) => {
 	if (
-		err.response.status === 401 ||
-		err.response.data.message === '401 Unauthorized'
+		err.response?.status === 401 ||
+		err.response?.data?.message === '401 Unauthorized'
 	) {
 		localStorage.setItem('loggedInUser', JSON.stringify({}));
 		window.location.reload();

@@ -1,9 +1,12 @@
-import { BrowserRouter as Router, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import LoginContextProvider from './Contexts/LoginContext';
 import Login from './pages/LoginSignup/login';
 import Signup from './pages/LoginSignup/signup';
 import Dashboard from './pages/Dashboard';
+import AddNewEmployee from './pages/AddNewEmployee';
+import EmployeeDetails from './pages/EmployeeDetails';
+import NotFound from './pages/NotFound';
 import ProtectedComponentRoute from './Components/ProtectedComponentRoute';
 import ProtectedLoginRoute from './Components/ProtectedLoginRoute';
 
@@ -16,8 +19,11 @@ const App = () => {
 				<Router>
 					<Switch>
 						<ProtectedComponentRoute exact path='/' component={Dashboard} />
-						<ProtectedLoginRoute path='/signup' component={Signup} />
-						<ProtectedLoginRoute path='/login' component={Login} />
+						<ProtectedComponentRoute exact path='/add-new' component={AddNewEmployee} />
+						<ProtectedComponentRoute exact path='/user/:id' component={EmployeeDetails} />
+						<ProtectedLoginRoute exact path='/signup' component={Signup} />
+						<ProtectedLoginRoute exact path='/login' component={Login} />
+						<Route path='*' component={NotFound}/>
 					</Switch>
 				</Router>
 			</LoginContextProvider>

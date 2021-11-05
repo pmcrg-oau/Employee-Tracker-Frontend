@@ -1,4 +1,5 @@
 import { FC, useContext } from 'react';
+import { Link } from 'react-router-dom';
 
 import { LoginContext } from '../../Contexts/LoginContext';
 
@@ -16,12 +17,22 @@ const Sidebar: FC<SidebarProps> = ({ isSidebarExpanded }) => {
 			<div className='sidebar__logo'></div>
 			<nav className='sidebar__navbar'>
 				<ul>
-					<li>
-						<button>
-							<i className='fas fa-user'></i>
-							<p>Users</p>
-						</button>
-					</li>
+					<Link to='/'>
+						<li>
+							<button>
+								<i className='fas fa-user'></i>
+								<p>Search Employee</p>
+							</button>
+						</li>
+					</Link>
+					<Link to='/add-new'>
+						<li>
+							<button>
+								<i className='fas fa-plus'></i>
+								<p>Add Employee</p>
+							</button>
+						</li>
+					</Link>
 					<li>
 						<button
 							onClick={() => {

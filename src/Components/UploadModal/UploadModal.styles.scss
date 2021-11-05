@@ -135,6 +135,7 @@
 					border-top: 1px solid var(--Dark-Blue);
 					justify-content: center;
 					align-items: center;
+					text-align: center;
 				}
 
 				.close{
@@ -175,6 +176,9 @@
 				padding: 0.5rem 1rem;
 
 				&.upload {
+					display: flex;
+					justify-content: center;
+					align-items: center;
 					color: var(--white);
 					margin-right: 1.5rem;
 					background: var(--Purple);

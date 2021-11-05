@@ -6,26 +6,19 @@ import {
 	useRef,
 	useState,
 } from 'react';
-import Dropdown from 'react-dropdown';
 import useAxios from 'axios-hooks';
 import ReactPaginate from 'react-paginate';
 import Skeleton from 'react-loading-skeleton';
 
+import Header from '../Header';
 import ResultTable from '../ResultTable';
 import UploadModal from '../UploadModal';
 import FeedbackText from '../FeedbackText';
-import CustomSearch from '../CustomSearch';
+import SearchForm from '../SearchForm';
 import User from '../../typesAndInterfaces/User';
 
 import 'react-loading-skeleton/dist/skeleton.css';
-import 'react-dropdown/style.css';
 import './MainContent.styles.scss';
-
-const options: Array<{ value: string; label: string }> = [
-	{ value: 'FirstName', label: 'Status - Firstname' },
-	{ value: 'Lastname', label: 'Status - Lastname' },
-	{ value: 'UserId', label: 'Status - UserId' },
-];
 
 type MainContentProps = {
 	isSidebarExpanded: boolean;
@@ -44,7 +37,6 @@ const MainContent: FC<MainContentProps> = ({
 	isSidebarExpanded,
 	setIsSidebarExpanded,
 }) => {
-	const customSearchRef = useRef<HTMLInputElement>(null);
 	const [users, setUsers] = useState<User[] | []>([]);
 	const [message, setMessage] = useState<string>('');
 	const [tableTop, setTableTop] = useState<boolean>(false);
@@ -75,7 +67,7 @@ const MainContent: FC<MainContentProps> = ({
 		};
 		try {
 			const response = await getUsersList({ params: bodyParams });
-			// console.log(response);
+			console.log(response);
 			setUsers(response?.data?.docs);
 			setTotalPages(response?.data?.totalPages);
 			setHasNextPage(response?.data?.hasNextPage);
@@ -130,68 +122,31 @@ const MainContent: FC<MainContentProps> = ({
 			{message && <FeedbackText message={message} />}
 
 			<section id='main__content'>
-				<header className='header'>
-					<button
-						className='hamburger'
-						onClick={() =>
-							setIsSidebarExpanded((isSidebarExpanded) => !isSidebarExpanded)
-						}
-					>
-						<div id='nav-icon1' className={isSidebarExpanded ? 'open' : ''}>
-							<span></span>
-							<span></span>
-							<span></span>
-						</div>
-					</button>
-
-					<button
-						className={isSidebarExpanded ? 'closed__button' : ''}
-						onClick={() =>
-							setShowUploadModal((showUploadModal) => !showUploadModal)
-						}
-					>
-						+ Upload CSV/XLS
-					</button>
-				</header>
+				<Header
+					isSidebarExpanded={isSidebarExpanded}
+					setIsSidebarExpanded={setIsSidebarExpanded}
+					setShowUploadModal={setShowUploadModal}
+				/>
 
 				<main className='main'>
-					<h2 className='title'>Employee Information</h2>
+					<h2 className='title'>Search Employee</h2>
 
-					<div className='sort__by'>
-						<span className='sort__by__text'>Sort By</span>
-						<Dropdown
-							options={options}
-							value={options[0]}
-							className={'custom__dropdown'}
-							controlClassName='custom__dropdown__control'
-							onChange={(option) => setRequiredSort(option.value)}
-							arrowClosed={<i className='fas fa-chevron-down'></i>}
-							arrowOpen={<i className='fas fa-chevron-up'></i>}
-						/>
-					</div>
+					<SearchForm />
 
 					<div className='result__details'>
-						<CustomSearch
-							ref={customSearchRef}
-							placeholder='Search Employee'
-							value={searchTerm}
-							onChange={() => setSearchTerm(customSearchRef.current!.value)}
-							handleClearSearch={() => setSearchTerm('')}
-							onSearch={getUsers}
-							id='custom-search'
-						/>
-					</div>
-
-					<div className='result__details'>
-						<p>
-							showing result{' '}
-							<span className='purple'>
-								{(pageNumber - 1) * users.length + 1} -{' '}
-								{pageNumber * users.length}
-							</span>{' '}
-							out of <span className='purple'>{totalPages}</span>{' '}
-							{totalPages === 1 ? 'page' : 'pages'}
-						</p>
+						{!!users.length ? (
+							<p>
+								Showing result{' '}
+								<span className='purple'>
+									{(pageNumber - 1) * users.length + 1} -{' '}
+									{pageNumber * users.length}
+								</span>{' '}
+								out of <span className='purple'>{totalPages}</span>{' '}
+								{totalPages === 1 ? 'page' : 'pages'}
+							</p>
+						) : (
+							<p>Showing no results</p>
+						)}
 					</div>
 
 					<div className={`results__table ${tableTop ? 'top' : ''}`}>

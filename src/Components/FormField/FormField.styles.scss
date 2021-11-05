@@ -1,0 +1,29 @@
+.form__field {
+	width: 100%;
+	margin: 1rem 0;
+	display: flex;
+	flex-direction: column;
+
+	label {
+		font-size: 0.9rem;
+		font-weight: bold;
+		color: var(--Dark-Blue);
+		margin-bottom: 0.5rem;
+	}
+
+	input {
+		border: 1px solid var(--Dark-Blue);
+		border-radius: 5px;
+		padding: 1rem;
+		max-width: 400px;
+		font-size: 1.1rem;
+
+		&::placeholder {
+			font-size: 1.1rem;
+		}
+
+		&:disabled{
+			cursor: not-allowed;
+		}
+	}
+}
