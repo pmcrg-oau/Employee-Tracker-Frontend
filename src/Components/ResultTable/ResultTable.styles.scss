@@ -65,6 +65,22 @@
 			.table__data{
 				font-size: 1rem;
 
+				button{
+					padding: .5rem;
+					border-radius: 2px;
+					border: 1px solid var(--Dark-Blue);
+					margin-right: 1rem;
+
+					i{
+						font-size: 1rem;
+						color: var(--Dark-Blue);
+
+						&.fa-trash{
+							color: red;
+						}
+					}
+				}
+
 				@media screen and (max-width: 600px) {
 					font-size: .8rem;
 				}

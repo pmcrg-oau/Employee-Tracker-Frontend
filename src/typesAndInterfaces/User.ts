@@ -39,6 +39,7 @@ type User = {
 };
 
 export type EmployeeDetailsValues = {
+	_id: string; 
 	firstname: string;
 	othername: string;
 	surname: string;
