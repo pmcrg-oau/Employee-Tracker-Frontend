@@ -21,13 +21,23 @@ const EmployeeDetail: FC<{ employee: User | EmployeeDetailsValues }> = ({
 						<Detail label='Firstname' value={employee.firstname} />
 						<Detail label='Phone' value={employee.phone} />
 						<Detail label='Email' value={employee.email} />
+						<Detail label='State' value={employee.state} />
+						<Detail label='L.G.A' value={employee.lga} />
 					</div>
 					<div className='form__right'>
-						<Detail label='D.O.B' value={format(new Date(employee.dob), 'dd/MM/yyyy')} />
+						<Detail
+							label='Gender'
+							value={employee.gender === 'M' ? 'Male' : 'Female'}
+						/>
+						<Detail
+							label='D.O.B'
+							value={format(new Date(employee.dob), 'dd/MM/yyyy')}
+						/>
 						<Detail label='Designation' value={employee.designation} />
 						<Detail label='Address' value={employee.address} />
 						<Detail label='Institution' value={employee.institution} />
 						<Detail label='T.I.N' value={employee.tin} />
+						<Detail label='Geozone' value={employee.geozone} />
 					</div>
 				</div>
 
@@ -52,11 +62,17 @@ const EmployeeDetail: FC<{ employee: User | EmployeeDetailsValues }> = ({
 						/>
 						<Detail
 							label='Present Appointment'
-							value={format(new Date(employee.presentappointment), 'dd/MM/yyyy')}
+							value={format(
+								new Date(employee.presentappointment),
+								'dd/MM/yyyy'
+							)}
 						/>
 					</div>
 					<div className='form__right'>
-						<Detail label='Retirement' value={format(new Date(employee.retirement), 'dd/MM/yyyy')} />
+						<Detail
+							label='Retirement'
+							value={format(new Date(employee.retirement), 'dd/MM/yyyy')}
+						/>
 						<Detail label='Certificate Year' value={employee.certificateyear} />
 					</div>
 				</div>
@@ -66,7 +82,10 @@ const EmployeeDetail: FC<{ employee: User | EmployeeDetailsValues }> = ({
 					<div className='form__left'>
 						<Detail label='Agency' value={employee.agency} />
 						<Detail label='cadre' value={employee.cadre} />
-						<Detail label='Confirmation' value={format(new Date(employee.confirmation), 'dd/MM/yyyy')} />
+						<Detail
+							label='Confirmation'
+							value={format(new Date(employee.confirmation), 'dd/MM/yyyy')}
+						/>
 						<Detail label='ippis' value={employee.ippis} />
 						<Detail label='step' value={employee.step} />
 					</div>

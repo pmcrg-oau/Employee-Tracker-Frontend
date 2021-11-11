@@ -33,3 +33,12 @@ export type regValues =
 	| 'state'
 	| 'step'
 	| 'tin';
+
+export type searchValues =
+	| 'fileno'
+	| 'firstname'
+	| 'othername'
+	| 'surname'
+	| 'email'
+	| 'dob'
+	| 'tin';

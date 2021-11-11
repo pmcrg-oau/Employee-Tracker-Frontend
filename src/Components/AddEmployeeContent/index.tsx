@@ -34,7 +34,7 @@ const AddEmployee: FC<AddEmployeeProps> = ({
 				<main className='main'>
 					<h2 className='title'>Add New Employee</h2>
 
-					<AddForm />
+					<AddForm setMessage={setMessage}/>
 				</main>
 			</section>
 

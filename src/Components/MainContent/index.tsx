@@ -1,14 +1,6 @@
-import {
-	Dispatch,
-	FC,
-	SetStateAction,
-	useEffect,
-	useRef,
-	useState,
-} from 'react';
+import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
 import useAxios from 'axios-hooks';
 import ReactPaginate from 'react-paginate';
-import Skeleton from 'react-loading-skeleton';
 
 import Header from '../Header';
 import ResultTable from '../ResultTable';
@@ -16,6 +8,7 @@ import UploadModal from '../UploadModal';
 import FeedbackText from '../FeedbackText';
 import SearchForm from '../SearchForm';
 import User from '../../typesAndInterfaces/User';
+import useFirstRender from '../../hooks/useFirstRender';
 
 import 'react-loading-skeleton/dist/skeleton.css';
 import './MainContent.styles.scss';
@@ -25,7 +18,7 @@ type MainContentProps = {
 	setIsSidebarExpanded: Dispatch<SetStateAction<boolean>>;
 };
 
-type GetUsersProps = {
+type GetEmployeesProps = {
 	dir?: string;
 	page: number;
 	limit?: number;
@@ -41,33 +34,35 @@ const MainContent: FC<MainContentProps> = ({
 	const [message, setMessage] = useState<string>('');
 	const [tableTop, setTableTop] = useState<boolean>(false);
 	const [showUploadModal, setShowUploadModal] = useState<boolean>(false);
-	const [requiredSort, setRequiredSort] = useState<string>('FirstName');
-	const [searchTerm, setSearchTerm] = useState<string>('');
 	const [pageNumber, setPageNumber] = useState<number>(1);
 	const [totalPages, setTotalPages] = useState<number>(1);
 	const [limit] = useState<number>(25);
+	const [searchData, setSearchData] = useState<{ [x: string]: any }>({});
 	const [_, setHasNextPage] = useState<boolean>(false);
 	const [_2, setHasPreviousPage] = useState<boolean>(false);
 
-	const [{ loading }, getUsersList] = useAxios(
+	const [{ loading }, getEmployeesList] = useAxios(
 		{
 			url: '/users',
-			method: 'get',
+			method: 'GET',
 		},
 		{ manual: true }
 	);
 
-	const getUsers = async () => {
-		const bodyParams: GetUsersProps = {
+	const getEmployees = async (data: { [x: string]: any }) => {
+		const bodyParams: GetEmployeesProps = {
 			dir: 'asc',
 			page: pageNumber,
 			limit,
-			search: searchTerm,
-			sortby: requiredSort.toLowerCase(),
+			sortby: 'firstname',
 		};
+
 		try {
-			const response = await getUsersList({ params: bodyParams });
-			console.log(response);
+			const response = await getEmployeesList({
+				params: bodyParams,
+				data,
+			});
+			console.log(data, response);
 			setUsers(response?.data?.docs);
 			setTotalPages(response?.data?.totalPages);
 			setHasNextPage(response?.data?.hasNextPage);
@@ -84,6 +79,10 @@ const MainContent: FC<MainContentProps> = ({
 	const handlePageClick = (selectedItem: { selected: number }) => {
 		setPageNumber(selectedItem.selected + 1);
 	};
+
+	useFirstRender(() => {
+		getEmployees(searchData);
+	}, [pageNumber]);
 
 	useEffect(() => {
 		window.addEventListener('scroll', function (e) {
@@ -113,10 +112,6 @@ const MainContent: FC<MainContentProps> = ({
 		};
 	}, []);
 
-	useEffect(() => {
-		getUsers();
-	}, [requiredSort, limit, searchTerm, pageNumber]);
-
 	return (
 		<>
 			{message && <FeedbackText message={message} />}
@@ -131,7 +126,7 @@ const MainContent: FC<MainContentProps> = ({
 				<main className='main'>
 					<h2 className='title'>Search Employee</h2>
 
-					<SearchForm />
+					<SearchForm getEmployees={getEmployees} loading={loading} setSearchData={setSearchData}/>
 
 					<div className='result__details'>
 						{!!users.length ? (
@@ -155,31 +150,27 @@ const MainContent: FC<MainContentProps> = ({
 
 					<div className='paginate__container'>
 						<div className='paginator'>
-							{loading ? (
-								<Skeleton height={40} />
-							) : (
-								<ReactPaginate
-									containerClassName='paginate'
-									pageClassName='paginate__page'
-									pageLinkClassName='paginate__page__link'
-									activeClassName='paginate__page__active'
-									activeLinkClassName='paginate__page__active__link'
-									breakLabel='...'
-									breakClassName='paginate__break'
-									breakLinkClassName='paginate__break__link'
-									nextClassName='paginate__next'
-									nextLinkClassName='paginate__next__link'
-									nextLabel={<i className='fas fa-caret-right'></i>}
-									onPageChange={handlePageClick}
-									pageRangeDisplayed={0}
-									pageCount={totalPages}
-									previousClassName='paginate__previous'
-									previousLinkClassName='paginate__previous__link'
-									previousLabel={<i className='fas fa-caret-left'></i>}
-									marginPagesDisplayed={1}
-									disabledClassName='paginate__disabled'
-								/>
-							)}
+							<ReactPaginate
+								containerClassName='paginate'
+								pageClassName='paginate__page'
+								pageLinkClassName='paginate__page__link'
+								activeClassName='paginate__page__active'
+								activeLinkClassName='paginate__page__active__link'
+								breakLabel='...'
+								breakClassName='paginate__break'
+								breakLinkClassName='paginate__break__link'
+								nextClassName='paginate__next'
+								nextLinkClassName='paginate__next__link'
+								nextLabel={<i className='fas fa-caret-right'></i>}
+								onPageChange={handlePageClick}
+								pageRangeDisplayed={0}
+								pageCount={totalPages}
+								previousClassName='paginate__previous'
+								previousLinkClassName='paginate__previous__link'
+								previousLabel={<i className='fas fa-caret-left'></i>}
+								marginPagesDisplayed={1}
+								disabledClassName='paginate__disabled'
+							/> 
 						</div>
 					</div>
 				</main>

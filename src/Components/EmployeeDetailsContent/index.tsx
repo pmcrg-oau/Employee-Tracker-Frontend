@@ -60,7 +60,7 @@ const EmployeeDetailsContent: FC<EmployeeDetailsContentProps> = ({
 				<main className='main'>
 					<h2 className='title'>Employee Details</h2>
 
-					<EditForm details={details} />
+					<EditForm details={details} setMessage={setMessage}/>
 				</main>
 			</section>
 

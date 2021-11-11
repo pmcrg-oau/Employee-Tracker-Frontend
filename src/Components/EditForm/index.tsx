@@ -1,10 +1,12 @@
-import { FC, useEffect, useState } from 'react';
+import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import useAxios from 'axios-hooks';
 import { format } from 'date-fns';
 
 import User, { EmployeeDetailsValues } from '../../typesAndInterfaces/User';
 import { regValues } from '../../typesAndInterfaces/otherTypes';
 import FormField from '../FormField/FormField';
+import Loader from '../Loader';
 import DropdownOptions from '../DropdownOptions';
 import {
 	genderOptions,
@@ -13,16 +15,20 @@ import {
 	departmentOptions,
 	stateOptions,
 	lgaOptions,
+	stateLgas,
 } from '../../data/optionsData';
 import './EditForm.styles.scss';
 
 type EditFormProps = {
 	details: User | EmployeeDetailsValues;
+	setMessage: Dispatch<SetStateAction<string>>;
 };
 
-const EditForm: FC<EditFormProps> = ({ details }) => {
+const EditForm: FC<EditFormProps> = ({ details, setMessage }) => {
 	const [buttonActive, setButtonActive] = useState<boolean>(true);
+	const [genderOption, setGenderOption] = useState<string>('M');
 	const {
+		_id,
 		firstname,
 		othername,
 		surname,
@@ -58,6 +64,12 @@ const EditForm: FC<EditFormProps> = ({ details }) => {
 		step,
 		tin,
 	} = details;
+	const [departmentOption, setDepartment] = useState<string>(department);
+	const [maritalStatus, setMaritalStatus] = useState<string>(maritalstatus);
+	const [stateOption, setStateOption] = useState<string>(state);
+	const [geoZoneOption, setGeoZoneOption] = useState<string>(geozone);
+	const [lgaOption, setLgaOption] = useState<string>(lga);
+	const [lgaArray, setLgaArray] = useState<string[]>(stateLgas[0].lgas);
 
 	const { register, watch, setValue, handleSubmit } =
 		useForm<EmployeeDetailsValues>({});
@@ -71,8 +83,8 @@ const EditForm: FC<EditFormProps> = ({ details }) => {
 	};
 
 	const checkInputValues = (watchFields: string[]) => {
-		for(let field of watchFields){
-			if(field?.length === 0) return false;
+		for (let field of watchFields) {
+			if (field?.length === 0) return false;
 		}
 
 		return true;
@@ -99,6 +111,41 @@ const EditForm: FC<EditFormProps> = ({ details }) => {
 		'confirmation',
 	]);
 
+	const [{ loading }, setEmployee] = useAxios(
+		{
+			url: '/user',
+			method: 'put',
+		},
+		{ manual: true }
+	);
+
+	const editEmployee = async (data: { [x: string]: any }) => {
+		console.log(stateOption);
+		const specifiedData = {
+			...data,
+			id: _id,
+			gender: genderOption,
+			lga: lgaOption,
+			department: departmentOption,
+			maritalstatus: maritalStatus,
+			geozone: geoZoneOption,
+			state: stateOption,
+		};
+
+		try {
+			const response = await setEmployee({
+				data: specifiedData,
+			});
+			console.log(data, response);
+		} catch (error: any) {
+			console.log(error);
+			setMessage(error?.response?.data?.message);
+			setTimeout(() => {
+				setMessage('');
+			}, 3000);
+		}
+	};
+
 	useEffect(() => {
 		registerValues([
 			'surname',
@@ -123,16 +170,30 @@ const EditForm: FC<EditFormProps> = ({ details }) => {
 
 	useEffect(() => {
 		// disable or enable submit button based on input values length
-		if(checkInputValues(watchFields)){
+		if (checkInputValues(watchFields)) {
 			setButtonActive(true);
 		} else {
 			setButtonActive(false);
 		}
 	}, [watchFields]);
 
+	useEffect(() => {
+		setStateOption(state);
+		setGeoZoneOption(geozone);
+		setLgaOption(lga);
+	}, [state, geozone, lga]);
+
+	useEffect(() => {
+		const newLgas = stateLgas.filter(
+			(stateOp) => stateOp.state === stateOption
+		);
+
+		if (newLgas.length) setLgaArray(newLgas[0].lgas);
+	}, [stateOption]);
+
 	return (
 		<section id='edit__form'>
-			<form action=''>
+			<form onSubmit={handleSubmit(editEmployee)}>
 				<fieldset>
 					<legend>Basic Information</legend>
 					<div className='form__left'>
@@ -241,18 +302,55 @@ const EditForm: FC<EditFormProps> = ({ details }) => {
 							label='Marital Status'
 							options={maritalOptions}
 							value={
-								maritalstatus === 'Married' ? maritalOptions[0] : undefined
+								maritalstatus === 'Married'
+									? maritalOptions[0]
+									: maritalOptions[1]
 							}
+							onChange={setMaritalStatus}
 						/>
 						<DropdownOptions
 							label='Gender'
 							options={genderOptions}
-							value={gender === 'M' ? genderOptions[0] : undefined}
+							value={gender === 'M' ? genderOptions[0] : genderOptions[1]}
+							onChange={setGenderOption}
 						/>
-						<DropdownOptions label='Department' options={departmentOptions} />
-						<DropdownOptions label='State' options={stateOptions} />
-						<DropdownOptions label='Geo.Zone' options={geoZoneOptions} />
-						<DropdownOptions label='LGA' options={lgaOptions} />
+						<DropdownOptions
+							label='Department'
+							options={departmentOptions}
+							onChange={setDepartment}
+						/>
+						<DropdownOptions
+							label='State'
+							options={stateOptions}
+							value={
+								stateOptions.filter(
+									(stateOp) =>
+										stateOp.value.toLowerCase() === stateOption.toLowerCase()
+								)[0]
+							}
+							onChange={setStateOption}
+						/>
+						<DropdownOptions
+							label='Geo.Zone'
+							options={geoZoneOptions}
+							value={
+								geoZoneOptions.filter(
+									(geoZone) =>
+										geoZone.value.toLowerCase() === geoZoneOption.toLowerCase()
+								)[0]
+							}
+							onChange={setGeoZoneOption}
+						/>
+						<DropdownOptions
+							label='LGA'
+							options={lgaOptions(lgaArray)}
+							value={
+								lgaOptions(lgaArray).filter(
+									(lga) => lga.value.toLowerCase() === lgaOption.toLowerCase()
+								)[0]
+							}
+							onChange={setLgaOption}
+						/>
 					</div>
 				</fieldset>
 
@@ -301,7 +399,9 @@ const EditForm: FC<EditFormProps> = ({ details }) => {
 								firstappointment &&
 								format(new Date(firstappointment), 'yyyy-MM-dd')
 							}
-							onChange={({ target }) => setValue('firstappointment', target.value)}
+							onChange={({ target }) =>
+								setValue('firstappointment', target.value)
+							}
 							required
 						/>
 						<FormField
@@ -313,7 +413,9 @@ const EditForm: FC<EditFormProps> = ({ details }) => {
 								presentappointment &&
 								format(new Date(presentappointment), 'yyyy-MM-dd')
 							}
-							onChange={({ target }) => setValue('presentappointment', target.value)}
+							onChange={({ target }) =>
+								setValue('presentappointment', target.value)
+							}
 							required
 						/>
 					</div>
@@ -447,8 +549,7 @@ const EditForm: FC<EditFormProps> = ({ details }) => {
 
 				<div className='button__container'>
 					<button className='search' disabled={!buttonActive}>
-						{/* {loading ? <Loader /> : 'Upload'} */}
-						Update Employee
+						{loading ? <Loader /> : 'Update Employee'}
 					</button>
 				</div>
 			</form>
@@ -457,6 +558,3 @@ const EditForm: FC<EditFormProps> = ({ details }) => {
 };
 
 export default EditForm;
-
-
-// format(new Date(target.value), 'dd/MM/yyyy')

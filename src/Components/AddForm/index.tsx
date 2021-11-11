@@ -1,6 +1,9 @@
-import { FC, useEffect, useState } from 'react';
+import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
+import useAxios from 'axios-hooks';
+import { useHistory } from 'react-router-dom';
 
 import { EmployeeDetailsValues } from '../../typesAndInterfaces/User';
+import Loader from '../Loader';
 import { regValues } from '../../typesAndInterfaces/otherTypes';
 import FormField from '../FormField/FormField';
 import DropdownOptions from '../DropdownOptions';
@@ -10,13 +13,26 @@ import {
 	geoZoneOptions,
 	lgaOptions,
 	maritalOptions,
+	stateLgas,
 	stateOptions,
 } from '../../data/optionsData';
 import { useForm } from 'react-hook-form';
 import './AddForm.styles.scss';
 
-const AddForm: FC = () => {
+type AddFormProps = {
+	setMessage: Dispatch<SetStateAction<string>>;
+}
+
+const AddForm: FC<AddFormProps> = ({ setMessage }) => {
+	const history = useHistory();
 	const [buttonActive, setButtonActive] = useState<boolean>(false);
+	const [genderOption, setGenderOption] = useState<string>('M');
+	const [maritalStatus, setMaritalStatus] = useState<string>('Married');
+	const [geoZoneOption, setGeoZoneOption] = useState<string>('South West');
+	const [lgaArray, setLgaArray] = useState<string[]>(stateLgas[0].lgas);
+	const [lgaOption, setLgaOption] = useState<string>(stateLgas[0].lgas[0]);
+	const [departmentOption, setDepartmentOption] = useState<string>('Admin&HR');
+	const [stateOption, setStateOption] = useState<string>('Adamawa');
 	const { register, watch, setValue, handleSubmit } =
 		useForm<EmployeeDetailsValues>({});
 
@@ -68,6 +84,42 @@ const AddForm: FC = () => {
 		'ippis',
 	]);
 
+	const [{ loading }, addEmployee] = useAxios(
+		{
+			url: '/user',
+			method: 'post',
+		},
+		{ manual: true }
+	);
+
+	const onSubmit = async (data: { [x: string]: any }) => {
+		const specifiedData = {
+			...data,
+			gender: genderOption,
+			lga: lgaOption,
+			department: departmentOption,
+			maritalstatus: maritalStatus,
+			geozone: geoZoneOption,
+			state: stateOption,
+		};
+
+		try {
+			await addEmployee({
+				data: specifiedData,
+			});
+			setMessage('Employee created sucessfully!');
+			setTimeout(() => {
+				setMessage('');
+				history.push('/');
+			}, 3000);
+		} catch (error: any) {
+			setMessage(error?.response?.data?.message);
+			setTimeout(() => {
+				setMessage('');
+			}, 3000);
+		}
+	};
+
 	useEffect(() => {
 		registerValues([
 			'fileno',
@@ -110,9 +162,16 @@ const AddForm: FC = () => {
 		}
 	}, [watchFields]);
 
+	useEffect(() => {
+		const newLgas = stateLgas.filter(
+			(stateOp) => stateOp.state === stateOption
+		)[0].lgas;
+		setLgaArray(newLgas);
+	}, [stateOption]);
+
 	return (
 		<section id='add__form'>
-			<form action=''>
+			<form onSubmit={handleSubmit(onSubmit)}>
 				<fieldset>
 					<legend>Basic Information</legend>
 					<div className='form__left'>
@@ -217,12 +276,12 @@ const AddForm: FC = () => {
 							onChange={({ target }) => setValue('address', target.value)}
 							required
 						/>
-						<DropdownOptions label='Marital Status' options={maritalOptions} />
-						<DropdownOptions label='Gender' options={genderOptions} />
-						<DropdownOptions label='Department' options={departmentOptions} />
-						<DropdownOptions label='State' options={stateOptions} />
-						<DropdownOptions label='Geo.Zone' options={geoZoneOptions} />
-						<DropdownOptions label='LGA' options={lgaOptions} />
+						<DropdownOptions label='Marital Status' options={maritalOptions} onChange={setMaritalStatus}/>
+						<DropdownOptions label='Gender' options={genderOptions} onChange={setGenderOption}/>
+						<DropdownOptions label='Department' options={departmentOptions} onChange={setDepartmentOption}/>
+						<DropdownOptions label='State' options={stateOptions} onChange={setStateOption}/>
+						<DropdownOptions label='Geo.Zone' options={geoZoneOptions} onChange={setGeoZoneOption}/>
+						<DropdownOptions label='LGA' options={lgaOptions(lgaArray)} onChange={setLgaOption}/>
 					</div>
 				</fieldset>
 
@@ -411,8 +470,7 @@ const AddForm: FC = () => {
 
 				<div className='button__container'>
 					<button className='search' disabled={!buttonActive}>
-						{/* {loading ? <Loader /> : 'Upload'} */}
-						Add Employee
+						{loading ? <Loader /> : 'Add Employee'}
 					</button>
 				</div>
 			</form>
