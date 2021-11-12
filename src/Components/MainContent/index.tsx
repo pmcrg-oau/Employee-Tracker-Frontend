@@ -90,9 +90,11 @@ const MainContent: FC<MainContentProps> = ({
 				.querySelector('.results__table')!
 				.getBoundingClientRect().top;
 			if (resultTableTop <= 0) {
+				console.log('sticky');
 				setTableTop(true);
 			}
 			if (resultTableTop > 0) {
+				console.log('notsticky');
 				setTableTop(false);
 			}
 		});

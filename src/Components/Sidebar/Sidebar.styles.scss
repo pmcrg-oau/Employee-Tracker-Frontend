@@ -8,7 +8,8 @@
 	background: var(--Dark-Blue);
 	transition: width 0.4s ease-in-out;
 
-	& + #main__content {
+	& + #main__content,
+	& + #employee__details__content {
 		margin: 0 0 0 104px;
 	}
 
@@ -60,7 +61,8 @@
 	&:hover {
 		width: 304px;
 
-		& + #main__content {
+		& + #main__content,
+		& + #employee__details__content {
 			margin: 0 0 0 304px;
 		}
 
@@ -82,14 +84,16 @@
 		left: -100vw;
 		transition: left .4s ease-in-out;
 
-		& + #main__content {
+		& + #main__content,
+		& + #employee__details__content {
 			margin: 0;
 		}	
 
 		&.expand{
 			left: 0;
 
-			& + #main__content header{
+			& + #main__content header,
+			& + #employee__details__content header{
 				margin: 0 0 0 104px;
 			}
 		}
@@ -97,7 +101,8 @@
 		&:hover {
 			width: 104px;
 	
-			& + #main__content {
+			& + #main__content,
+			& + #employee__details__content {
 				margin: 0;
 			}	
 		}

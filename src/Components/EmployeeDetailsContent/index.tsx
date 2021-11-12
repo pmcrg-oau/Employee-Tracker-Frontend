@@ -21,6 +21,7 @@ const EmployeeDetailsContent: FC<EmployeeDetailsContentProps> = ({
 	isSidebarExpanded,
 	setIsSidebarExpanded,
 }) => {
+	const [showEditForm, setShowEditForm] = useState<boolean>(false);
 	const [message, setMessage] = useState<string>('');
 	const [details, setDetails] = useState<User | EmployeeDetailsValues>(
 		importantDets
@@ -28,7 +29,7 @@ const EmployeeDetailsContent: FC<EmployeeDetailsContentProps> = ({
 	const [showUploadModal, setShowUploadModal] = useState<boolean>(false);
 	const { id } = useParams<{ id: string }>();
 
-	const [{ data, error }, getEmployeeDetails] = useAxios(
+	const [{ data }, getEmployeeDetails] = useAxios(
 		{
 			url: `/user/${id}`,
 			method: 'get',
@@ -38,19 +39,20 @@ const EmployeeDetailsContent: FC<EmployeeDetailsContentProps> = ({
 
 	useEffect(() => {
 		getEmployeeDetails();
-
-		if (error) console.log(error);
 	}, []);
 
 	useEffect(() => {
-		if(data) setDetails((details) => ({...details, ...data}));
+		if (data) {
+			setDetails((details) => ({ ...details, ...data }));
+			setShowEditForm(true);
+		}
 	}, [data]);
 
 	return (
 		<>
 			{message && <FeedbackText message={message} />}
 
-			<section id='main__content'>
+			<section id='employee__details__content'>
 				<Header
 					isSidebarExpanded={isSidebarExpanded}
 					setIsSidebarExpanded={setIsSidebarExpanded}
@@ -60,7 +62,13 @@ const EmployeeDetailsContent: FC<EmployeeDetailsContentProps> = ({
 				<main className='main'>
 					<h2 className='title'>Employee Details</h2>
 
-					<EditForm details={details} setMessage={setMessage}/>
+					{!showEditForm ? (
+						<div className='loader__container'>
+							<img src='/assets/loader.gif' alt='loader' />
+						</div>
+					) : (
+						<EditForm details={details} setMessage={setMessage} />
+					)}
 				</main>
 			</section>
 

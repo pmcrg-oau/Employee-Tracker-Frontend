@@ -1,4 +1,5 @@
 import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import useAxios from 'axios-hooks';
 import { format } from 'date-fns';
@@ -25,6 +26,7 @@ type EditFormProps = {
 };
 
 const EditForm: FC<EditFormProps> = ({ details, setMessage }) => {
+	const history = useHistory();
 	const [buttonActive, setButtonActive] = useState<boolean>(true);
 	const [genderOption, setGenderOption] = useState<string>('M');
 	const {
@@ -72,7 +74,27 @@ const EditForm: FC<EditFormProps> = ({ details, setMessage }) => {
 	const [lgaArray, setLgaArray] = useState<string[]>(stateLgas[0].lgas);
 
 	const { register, watch, setValue, handleSubmit } =
-		useForm<EmployeeDetailsValues>({});
+		useForm<EmployeeDetailsValues>({
+			defaultValues: {
+				surname,
+				othername,
+				firstname,
+				phone,
+				email,
+				institution,
+				designation,
+				address,
+				bank,
+				account,
+				sortcode,
+				firstappointment,
+				presentappointment,
+				retirement,
+				certificateyear,
+				cadre,
+				confirmation,
+			},
+		});
 
 	const registerValues = (valueArr: regValues[]) => {
 		for (let value of valueArr) {
@@ -111,7 +133,7 @@ const EditForm: FC<EditFormProps> = ({ details, setMessage }) => {
 		'confirmation',
 	]);
 
-	const [{ loading }, setEmployee] = useAxios(
+	const [{ loading }, editEmployee] = useAxios(
 		{
 			url: '/user',
 			method: 'put',
@@ -119,8 +141,7 @@ const EditForm: FC<EditFormProps> = ({ details, setMessage }) => {
 		{ manual: true }
 	);
 
-	const editEmployee = async (data: { [x: string]: any }) => {
-		console.log(stateOption);
+	const onSubmit = async (data: { [x: string]: any }) => {
 		const specifiedData = {
 			...data,
 			id: _id,
@@ -133,12 +154,15 @@ const EditForm: FC<EditFormProps> = ({ details, setMessage }) => {
 		};
 
 		try {
-			const response = await setEmployee({
+			await editEmployee({
 				data: specifiedData,
 			});
-			console.log(data, response);
+			setMessage('Employee edited sucessfully!');
+			setTimeout(() => {
+				setMessage('');
+				history.push('/');
+			}, 3000);
 		} catch (error: any) {
-			console.log(error);
 			setMessage(error?.response?.data?.message);
 			setTimeout(() => {
 				setMessage('');
@@ -193,7 +217,7 @@ const EditForm: FC<EditFormProps> = ({ details, setMessage }) => {
 
 	return (
 		<section id='edit__form'>
-			<form onSubmit={handleSubmit(editEmployee)}>
+			<form onSubmit={handleSubmit(onSubmit)}>
 				<fieldset>
 					<legend>Basic Information</legend>
 					<div className='form__left'>
