@@ -22,9 +22,7 @@ const AddEmployee: FC<AddEmployeeProps> = ({
 
 	return (
 		<>
-			{message && <FeedbackText message={message} />}
-
-			<section id='main__content'>
+			<section id='add__employee__content'>
 				<Header
 					isSidebarExpanded={isSidebarExpanded}
 					setIsSidebarExpanded={setIsSidebarExpanded}
@@ -34,13 +32,15 @@ const AddEmployee: FC<AddEmployeeProps> = ({
 				<main className='main'>
 					<h2 className='title'>Add New Employee</h2>
 
-					<AddForm setMessage={setMessage}/>
+					<AddForm setMessage={setMessage} />
 				</main>
 			</section>
 
 			{showUploadModal && (
 				<UploadModal setShowUploadModal={setShowUploadModal} />
 			)}
+			
+			{message && <FeedbackText message={message} />}
 		</>
 	);
 };

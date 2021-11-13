@@ -50,8 +50,6 @@ const EmployeeDetailsContent: FC<EmployeeDetailsContentProps> = ({
 
 	return (
 		<>
-			{message && <FeedbackText message={message} />}
-
 			<section id='employee__details__content'>
 				<Header
 					isSidebarExpanded={isSidebarExpanded}
@@ -75,6 +73,8 @@ const EmployeeDetailsContent: FC<EmployeeDetailsContentProps> = ({
 			{showUploadModal && (
 				<UploadModal setShowUploadModal={setShowUploadModal} />
 			)}
+			
+			{message && <FeedbackText message={message} />}
 		</>
 	);
 };

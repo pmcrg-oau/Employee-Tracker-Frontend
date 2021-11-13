@@ -186,8 +186,8 @@
 			align-items: center;
 			justify-content: flex-end;
 			padding: 0 1rem;
-			
-			.paginator{
+
+			.paginator {
 				overflow-x: auto;
 				width: 100%;
 				max-width: 320px;
@@ -200,11 +200,13 @@
 
 				&__break {
 					border: 1px solid var(--Purple);
-					padding: 0.5rem 1rem;
 					margin: 0 0.5rem;
 					cursor: pointer;
-
+					
 					&__link {
+						display: block;
+						width: 100%;
+						padding: 0.5rem 1rem;
 						color: var(--Purple);
 					}
 
@@ -212,6 +214,7 @@
 						background: var(--Purple);
 
 						.paginate__break__link {
+							width: 100%;
 							color: var(--white);
 						}
 					}
@@ -219,28 +222,33 @@
 
 				&__page {
 					border: 1px solid var(--Purple);
-					padding: 0.5rem 1rem;
-					margin-left: .2rem;
+					margin-left: 0.2rem;
 					cursor: pointer;
-
+					
 					&__link {
+						display: block;
+						width: 100%;
+						padding: 0.5rem 1rem;
 						color: var(--Purple);
 					}
 
 					&__active {
 						background: var(--Purple);
-						
+
 						&__link {
+							display: block;
+							width: 100%;
 							color: var(--white);
 						}
 					}
-					
+
 					&:hover {
 						background: var(--Purple);
-						opacity: .8;
+						opacity: 0.8;
 
 						.paginate__page__link,
 						.paginate__page__active__link {
+							width: 100%;
 							color: var(--white);
 						}
 					}
@@ -248,12 +256,14 @@
 
 				&__next {
 					border: 1px solid var(--Purple);
-					padding: 0.5rem 1rem;
 					margin-left: 1rem;
 					color: var(--Purple);
 					cursor: pointer;
-
+					
 					&__link {
+						display: block;
+						width: 100%;
+						padding: 0.5rem 1rem;
 						i {
 							font-size: 1rem;
 							color: var(--Purple);
@@ -264,6 +274,7 @@
 						background: var(--Purple);
 
 						.paginate__next__link {
+							width: 100%;
 							i {
 								font-size: 1rem;
 								color: var(--white);
@@ -274,12 +285,14 @@
 
 				&__previous {
 					border: 1px solid var(--Purple);
-					padding: 0.5rem 1rem;
 					margin-right: 1rem;
 					color: var(--Purple);
 					cursor: pointer;
-
+					
 					&__link {
+						display: block;
+						width: 100%;
+						padding: 0.5rem 1rem;
 						i {
 							font-size: 1rem;
 							color: var(--Purple);
@@ -290,6 +303,7 @@
 						background: var(--Purple);
 
 						.paginate__previous__link {
+							width: 100%;
 							i {
 								font-size: 1rem;
 								color: var(--white);

@@ -9,7 +9,8 @@
 	transition: width 0.4s ease-in-out;
 
 	& + #main__content,
-	& + #employee__details__content {
+	& + #employee__details__content,
+	& + #add__employee__content {
 		margin: 0 0 0 104px;
 	}
 
@@ -35,18 +36,18 @@
 					border: none;
 					background: none;
 					color: var(--white);
-					opacity: .5;
+					opacity: 0.5;
 					font-size: 1.5rem;
 
-					&:hover{
+					&:hover {
 						opacity: 1;
 					}
 
 					p {
 						opacity: 0;
 						visibility: hidden;
-                        white-space: nowrap;
-                        overflow: hidden;
+						white-space: nowrap;
+						overflow: hidden;
 						transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out;
 					}
 
@@ -62,7 +63,8 @@
 		width: 304px;
 
 		& + #main__content,
-		& + #employee__details__content {
+		& + #employee__details__content,
+		& + #add__employee__content {
 			margin: 0 0 0 304px;
 		}
 
@@ -72,7 +74,7 @@
 					button {
 						p {
 							opacity: 1;
-                            visibility: visible;
+							visibility: visible;
 						}
 					}
 				}
@@ -82,29 +84,32 @@
 
 	@media screen and (max-width: 600px) {
 		left: -100vw;
-		transition: left .4s ease-in-out;
+		transition: left 0.4s ease-in-out;
 
 		& + #main__content,
-		& + #employee__details__content {
+		& + #employee__details__content,
+		& + #add__employee__content {
 			margin: 0;
-		}	
+		}
 
-		&.expand{
+		&.expand {
 			left: 0;
 
 			& + #main__content header,
-			& + #employee__details__content header{
+			& + #employee__details__content header,
+			& + #add__employee__content header {
 				margin: 0 0 0 104px;
 			}
 		}
-		
+
 		&:hover {
 			width: 104px;
-	
+
 			& + #main__content,
-			& + #employee__details__content {
+			& + #employee__details__content,
+			& + #add__employee__content {
 				margin: 0;
-			}	
+			}
 		}
 	}
 }

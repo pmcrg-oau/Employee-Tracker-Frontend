@@ -116,8 +116,6 @@ const MainContent: FC<MainContentProps> = ({
 
 	return (
 		<>
-			{message && <FeedbackText message={message} />}
-
 			<section id='main__content'>
 				<Header
 					isSidebarExpanded={isSidebarExpanded}
@@ -128,7 +126,11 @@ const MainContent: FC<MainContentProps> = ({
 				<main className='main'>
 					<h2 className='title'>Search Employee</h2>
 
-					<SearchForm getEmployees={getEmployees} loading={loading} setSearchData={setSearchData}/>
+					<SearchForm
+						getEmployees={getEmployees}
+						loading={loading}
+						setSearchData={setSearchData}
+					/>
 
 					<div className='result__details'>
 						{!!users.length ? (
@@ -172,7 +174,7 @@ const MainContent: FC<MainContentProps> = ({
 								previousLabel={<i className='fas fa-caret-left'></i>}
 								marginPagesDisplayed={1}
 								disabledClassName='paginate__disabled'
-							/> 
+							/>
 						</div>
 					</div>
 				</main>
@@ -181,6 +183,8 @@ const MainContent: FC<MainContentProps> = ({
 			{showUploadModal && (
 				<UploadModal setShowUploadModal={setShowUploadModal} />
 			)}
+			
+			{message && <FeedbackText message={message} />}
 		</>
 	);
 };
