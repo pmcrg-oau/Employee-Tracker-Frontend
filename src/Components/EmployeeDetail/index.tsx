@@ -1,5 +1,6 @@
-import { format } from 'date-fns';
 import { FC } from 'react';
+import { Link } from 'react-router-dom';
+import { format } from 'date-fns';
 
 import User, { EmployeeDetailsValues } from '../../typesAndInterfaces/User';
 import Detail from '../Detail';
@@ -12,6 +13,12 @@ const EmployeeDetail: FC<{ employee: User | EmployeeDetailsValues }> = ({
 	return (
 		<section id='employee__detail__container'>
 			<>
+				<div className="view__records">
+					<Link to={`/user/${employee._id}/records`}>
+						<i className="fas fa-clipboard"></i>
+						View Records
+					</Link>
+				</div>
 				<p className='legend'>Basic Information</p>
 				<div className='container'>
 					<div className='form__left'>

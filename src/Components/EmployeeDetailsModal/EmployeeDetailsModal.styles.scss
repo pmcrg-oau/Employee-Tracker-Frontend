@@ -58,6 +58,7 @@
 			position: relative;
 			max-height: 600px;
 			overflow-y: auto;
+			margin-bottom: 1rem;
 
 			h2 {
 				font-weight: bold;
@@ -102,7 +103,6 @@
 					&:disabled {
 						background: rgba(33, 52, 224, 0.49);
 						cursor: not-allowed;
-
 					}
 				}
 

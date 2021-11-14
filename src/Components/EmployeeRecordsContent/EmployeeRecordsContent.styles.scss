@@ -1,0 +1,209 @@
+#employee__records__content {
+	transition: margin 0.4s ease-in-out;
+	position: relative;
+	height: 100vh;
+
+	.header {
+		position: sticky;
+		top: 0;
+		left: 0;
+		z-index: 10;
+		width: 100%;
+		padding: 0 1rem;
+		height: 80px;
+		display: flex;
+		justify-content: flex-end;
+		align-items: center;
+		background: var(--white);
+		box-shadow: 3px 4px 4px 2px rgba(0, 0, 0, 0.15);
+
+		button {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 45px;
+			border: none;
+			border-radius: 15px;
+			background: var(--Purple);
+			color: var(--white);
+			font-size: 1.5rem;
+			font-weight: bold;
+			padding: 0 1rem;
+
+			&:hover,
+			&:focus {
+				box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+			}
+
+			&.hamburger {
+				background: none;
+				color: black;
+				display: none;
+
+				#nav-icon1 {
+					width: 30px;
+					height: 25px;
+					position: relative;
+					margin: 0;
+					-webkit-transform: rotate(0deg);
+					-moz-transform: rotate(0deg);
+					-o-transform: rotate(0deg);
+					transform: rotate(0deg);
+					-webkit-transition: 0.5s ease-in-out;
+					-moz-transition: 0.5s ease-in-out;
+					-o-transition: 0.5s ease-in-out;
+					transition: 0.5s ease-in-out;
+					cursor: pointer;
+				}
+
+				#nav-icon1 span {
+					display: block;
+					position: absolute;
+					height: 4px;
+					width: 100%;
+					background: var(--Dark-Blue);
+					border-radius: 9px;
+					opacity: 1;
+					left: 0;
+					-webkit-transform: rotate(0deg);
+					-moz-transform: rotate(0deg);
+					-o-transform: rotate(0deg);
+					transform: rotate(0deg);
+					-webkit-transition: 0.25s ease-in-out;
+					-moz-transition: 0.25s ease-in-out;
+					-o-transition: 0.25s ease-in-out;
+					transition: 0.25s ease-in-out;
+				}
+
+				#nav-icon1 span:nth-child(1) {
+					top: 0px;
+				}
+
+				#nav-icon1 span:nth-child(2) {
+					top: 9px;
+				}
+
+				#nav-icon1 span:nth-child(3) {
+					top: 18px;
+				}
+
+				#nav-icon1.open span:nth-child(1) {
+					top: 9px;
+					-webkit-transform: rotate(135deg);
+					-moz-transform: rotate(135deg);
+					-o-transform: rotate(135deg);
+					transform: rotate(135deg);
+				}
+
+				#nav-icon1.open span:nth-child(2) {
+					opacity: 0;
+					left: -60px;
+				}
+
+				#nav-icon1.open span:nth-child(3) {
+					top: 9px;
+					-webkit-transform: rotate(-135deg);
+					-moz-transform: rotate(-135deg);
+					-o-transform: rotate(-135deg);
+					transform: rotate(-135deg);
+				}
+			}
+		}
+
+		@media screen and (max-width: 600px) {
+			justify-content: space-between;
+			transition: margin 0.4s ease-in-out;
+
+			button {
+				font-size: 1.1rem;
+				transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out;
+
+				&.hamburger {
+					display: block;
+				}
+
+				&.closed__button {
+					opacity: 0;
+					visibility: hidden;
+				}
+			}
+		}
+	}
+
+	.main {
+		.title {
+			margin: 2rem 1rem;
+		}
+
+		.loader__container {
+			width: 100vw;
+			min-height: 20vh;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.records {
+			width: 95%;
+			margin: 0 auto;
+
+			.record__preview {
+				position: relative;
+				height: 400px;
+				width: 300px;
+				border: 1px solid #626dd5;
+				border-radius: 11px;
+				box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+				cursor: pointer;
+
+				.image {
+					height: 80%;
+					width: 100%;
+
+					img{
+						width: 100%;
+						height: 100%;
+					}
+				}
+
+				.file__name {
+					height: 20%;
+					color: #000;
+					display: flex;
+					border-top: 1px solid #626dd5;
+					justify-content: center;
+					align-items: center;
+					text-align: center;
+				}
+
+				.delete {
+					width: 25px;
+					height: 25px;
+					border-radius: 50%;
+					position: absolute;
+					top: 10px;
+					right: 15px;
+					font-size: 1rem;
+					font-weight: bold;
+					color: var(--white);
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					cursor: pointer;
+
+					i {
+						display: none;
+						font-size: 1.2rem;
+						color: red;
+					}
+				}
+
+				&:hover {
+					.delete i {
+						display: block;
+					}
+				}
+			}
+		}
+	}
+}

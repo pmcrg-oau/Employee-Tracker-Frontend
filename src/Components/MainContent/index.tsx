@@ -44,7 +44,7 @@ const MainContent: FC<MainContentProps> = ({
 	const [{ loading }, getEmployeesList] = useAxios(
 		{
 			url: '/users',
-			method: 'GET',
+			method: 'post',
 		},
 		{ manual: true }
 	);
@@ -62,7 +62,6 @@ const MainContent: FC<MainContentProps> = ({
 				params: bodyParams,
 				data,
 			});
-			console.log(data, response);
 			setUsers(response?.data?.docs);
 			setTotalPages(response?.data?.totalPages);
 			setHasNextPage(response?.data?.hasNextPage);
@@ -90,11 +89,9 @@ const MainContent: FC<MainContentProps> = ({
 				.querySelector('.results__table')!
 				.getBoundingClientRect().top;
 			if (resultTableTop <= 0) {
-				console.log('sticky');
 				setTableTop(true);
 			}
 			if (resultTableTop > 0) {
-				console.log('notsticky');
 				setTableTop(false);
 			}
 		});
@@ -149,7 +146,12 @@ const MainContent: FC<MainContentProps> = ({
 					</div>
 
 					<div className={`results__table ${tableTop ? 'top' : ''}`}>
-						<ResultTable users={users} loading={loading} />
+						<ResultTable
+							users={users}
+							setUsers={setUsers}
+							loading={loading}
+							setMessage={setMessage}
+						/>
 					</div>
 
 					<div className='paginate__container'>
@@ -183,7 +185,7 @@ const MainContent: FC<MainContentProps> = ({
 			{showUploadModal && (
 				<UploadModal setShowUploadModal={setShowUploadModal} />
 			)}
-			
+
 			{message && <FeedbackText message={message} />}
 		</>
 	);

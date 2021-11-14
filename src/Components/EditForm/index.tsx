@@ -151,7 +151,14 @@ const EditForm: FC<EditFormProps> = ({ details, setMessage }) => {
 			maritalstatus: maritalStatus,
 			geozone: geoZoneOption,
 			state: stateOption,
+			dob: format(new Date(dob), 'yyyy-MM-dd'),
+			firstappointment: format(new Date(firstappointment), 'yyyy-MM-dd'),
+			presentappointment: format(new Date(presentappointment), 'yyyy-MM-dd'),
+			retirement: format(new Date(retirement), 'yyyy-MM-dd'),
+			confirmation: format(new Date(confirmation), 'yyyy-MM-dd'),
 		};
+
+		console.log(specifiedData);
 
 		try {
 			await editEmployee({
@@ -258,7 +265,7 @@ const EditForm: FC<EditFormProps> = ({ details, setMessage }) => {
 							required
 						/>
 						<FormField
-							type='text'
+							type='tel'
 							label='Phone'
 							id='phone'
 							placeholder='e.g 09076845342'

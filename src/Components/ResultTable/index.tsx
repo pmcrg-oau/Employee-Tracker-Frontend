@@ -1,5 +1,6 @@
-import { FC, useState } from 'react';
+import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
+import useAxios from 'axios-hooks';
 
 import Table from './Table';
 import TableBody from './TableBody';
@@ -16,15 +17,52 @@ import { Link } from 'react-router-dom';
 
 type ResultTableProps = {
 	users: User[] | [];
+	setUsers: Dispatch<SetStateAction<User[] | []>>;
 	loading: boolean;
+	setMessage: Dispatch<SetStateAction<string>>;
 };
 
-const ResultTable: FC<ResultTableProps> = ({ users, loading }) => {
+const ResultTable: FC<ResultTableProps> = ({
+	users,
+	setUsers,
+	loading,
+	setMessage,
+}) => {
+	const [idToDelete, setIdToDelete] = useState<string>('');
 	const [employee, setEmployee] = useState<User | EmployeeDetailsValues>(
 		importantDets
 	);
 	const [showEmployeeDetailsModal, setShowEmployeeDetailsModal] =
 		useState<boolean>(false);
+
+	const [{ loading: loadingDelete }, deleteEmp] = useAxios(
+		{
+			url: `/user/${idToDelete}`,
+			method: 'delete',
+		},
+		{ manual: true }
+	);
+
+	const deleteEmployee = async (id: string) => {
+		try {
+			await deleteEmp();
+			setMessage('Employee deleted sucessfully!');
+			setTimeout(() => {
+				setMessage('');
+			}, 3000);
+			const filteredEmployees = users.filter((user) => user._id !== id);
+			setUsers(filteredEmployees);
+		} catch (error: any) {
+			setMessage(error?.response?.data?.message);
+			setTimeout(() => {
+				setMessage('');
+			}, 3000);
+		}
+	};
+
+	useEffect(() => {
+		if (idToDelete) deleteEmployee(idToDelete);
+	}, [idToDelete]);
 
 	return (
 		<>
@@ -72,9 +110,7 @@ const ResultTable: FC<ResultTableProps> = ({ users, loading }) => {
 											</button>
 										</Link>
 
-										<button
-											onClick={() => null}
-										>
+										<button onClick={() => setIdToDelete(user._id)}>
 											<i className='fas fa-trash'></i>
 										</button>
 									</TableData>

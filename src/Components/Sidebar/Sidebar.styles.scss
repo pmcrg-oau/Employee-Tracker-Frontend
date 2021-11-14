@@ -10,7 +10,8 @@
 
 	& + #main__content,
 	& + #employee__details__content,
-	& + #add__employee__content {
+	& + #add__employee__content,
+	& + #employee__records__content {
 		margin: 0 0 0 104px;
 	}
 
@@ -64,7 +65,8 @@
 
 		& + #main__content,
 		& + #employee__details__content,
-		& + #add__employee__content {
+		& + #add__employee__content,
+		& + #employee__records__content {
 			margin: 0 0 0 304px;
 		}
 
@@ -88,7 +90,8 @@
 
 		& + #main__content,
 		& + #employee__details__content,
-		& + #add__employee__content {
+		& + #add__employee__content,
+		& + #employee__records__content {
 			margin: 0;
 		}
 
@@ -97,7 +100,8 @@
 
 			& + #main__content header,
 			& + #employee__details__content header,
-			& + #add__employee__content header {
+			& + #add__employee__content header,
+			& + #employee__records__content header {
 				margin: 0 0 0 104px;
 			}
 		}
@@ -107,7 +111,8 @@
 
 			& + #main__content,
 			& + #employee__details__content,
-			& + #add__employee__content {
+			& + #add__employee__content,
+			& + #employee__records__content {
 				margin: 0;
 			}
 		}
