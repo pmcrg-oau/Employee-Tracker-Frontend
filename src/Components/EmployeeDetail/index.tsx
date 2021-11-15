@@ -40,6 +40,7 @@ const EmployeeDetail: FC<{ employee: User | EmployeeDetailsValues }> = ({
 							label='D.O.B'
 							value={format(new Date(employee.dob), 'dd/MM/yyyy')}
 						/>
+						<Detail label='Department' value={employee.department} />
 						<Detail label='Designation' value={employee.designation} />
 						<Detail label='Address' value={employee.address} />
 						<Detail label='Institution' value={employee.institution} />

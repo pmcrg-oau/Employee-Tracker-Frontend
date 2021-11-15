@@ -158,8 +158,6 @@ const EditForm: FC<EditFormProps> = ({ details, setMessage }) => {
 			confirmation: format(new Date(confirmation), 'yyyy-MM-dd'),
 		};
 
-		console.log(specifiedData);
-
 		try {
 			await editEmployee({
 				data: specifiedData,
@@ -212,7 +210,8 @@ const EditForm: FC<EditFormProps> = ({ details, setMessage }) => {
 		setStateOption(state);
 		setGeoZoneOption(geozone);
 		setLgaOption(lga);
-	}, [state, geozone, lga]);
+		setDepartment(department)
+	}, [state, geozone, lga, department]);
 
 	useEffect(() => {
 		const newLgas = stateLgas.filter(
@@ -348,6 +347,12 @@ const EditForm: FC<EditFormProps> = ({ details, setMessage }) => {
 						<DropdownOptions
 							label='Department'
 							options={departmentOptions}
+							value={
+								departmentOptions.filter(
+									(departmentOp) =>
+										departmentOp.value.toLowerCase() === departmentOption.toLowerCase()
+								)[0]
+							}
 							onChange={setDepartment}
 						/>
 						<DropdownOptions
