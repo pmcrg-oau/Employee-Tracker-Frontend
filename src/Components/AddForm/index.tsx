@@ -111,12 +111,12 @@ const AddForm: FC<AddFormProps> = ({ setMessage }) => {
 			setTimeout(() => {
 				setMessage('');
 				history.push('/');
-			}, 3000);
+			},5000);
 		} catch (error: any) {
 			setMessage(error?.response?.data?.message);
 			setTimeout(() => {
 				setMessage('');
-			}, 3000);
+			},5000);
 		}
 	};
 

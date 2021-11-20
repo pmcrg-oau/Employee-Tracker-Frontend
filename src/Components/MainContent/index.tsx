@@ -70,7 +70,7 @@ const MainContent: FC<MainContentProps> = ({
 			setMessage(error?.response?.data?.message);
 			setTimeout(() => {
 				setMessage('');
-			}, 3000);
+			},5000);
 		}
 	};
 

@@ -166,12 +166,12 @@ const EditForm: FC<EditFormProps> = ({ details, setMessage }) => {
 			setTimeout(() => {
 				setMessage('');
 				history.push('/');
-			}, 3000);
+			},5000);
 		} catch (error: any) {
 			setMessage(error?.response?.data?.message);
 			setTimeout(() => {
 				setMessage('');
-			}, 3000);
+			},5000);
 		}
 	};
 

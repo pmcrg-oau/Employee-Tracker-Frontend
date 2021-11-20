@@ -40,13 +40,13 @@ const UploadModal: FC<UploadModalProps> = ({ setShowUploadModal }) => {
 			setTimeout(() => {
 				setMessage('');
 				setShowUploadModal(false);
-			}, 3000);
+			},5000);
 		} catch (error: any) {
 			console.log(error);
 			setMessage(error?.response?.data);
 			setTimeout(() => {
 				setMessage('');
-			}, 3000);
+			},5000);
 		}
 	};
 

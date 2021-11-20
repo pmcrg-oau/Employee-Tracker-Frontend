@@ -71,7 +71,7 @@ const Signup: FC = () => {
 			setMessage(error?.response?.data?.message);
 			setTimeout(() => {
 				setMessage('');
-			}, 3000);
+			},5000);
 		}
 	};
 

@@ -49,14 +49,14 @@ const ResultTable: FC<ResultTableProps> = ({
 			setMessage('Employee deleted sucessfully!');
 			setTimeout(() => {
 				setMessage('');
-			}, 3000);
+			},5000);
 			const filteredEmployees = users.filter((user) => user._id !== id);
 			setUsers(filteredEmployees);
 		} catch (error: any) {
 			setMessage(error?.response?.data?.message);
 			setTimeout(() => {
 				setMessage('');
-			}, 3000);
+			},5000);
 		}
 	};
 

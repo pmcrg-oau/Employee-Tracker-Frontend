@@ -66,7 +66,7 @@ const Login: FC = () => {
 			setMessage(error?.response?.data?.message);
 			setTimeout(() => {
 				setMessage('');
-			}, 3000);
+			},5000);
 		}
 	};
 
@@ -142,16 +142,12 @@ const Login: FC = () => {
 							{loading ? <Loader /> : 'LOG IN'}
 						</button>
 
-						<div className='reset__password__link'>
+						{/* <div className='reset__password__link'>
 							<p className='forgot__password'>
 								Don't have an account? &nbsp;
 								<Link to='/signup'>Signup</Link>
 							</p>
-
-							<p className='reset__password'>
-								<Link to='/'>ResetPassword</Link>
-							</p>
-						</div>
+						</div> */}
 					</form>
 
 					<p className='copyright__text'>© Copyright pmcrg 2021.</p>

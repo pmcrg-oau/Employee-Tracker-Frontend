@@ -33,7 +33,7 @@ const FileDragAndDropUploader: FC<FileDragAndDropUploaderProps> = ({
 			);
 			setTimeout(() => {
 				setMessage('');
-			}, 3000);
+			},5000);
 			return;
 		}
 	};
@@ -76,7 +76,7 @@ const FileDragAndDropUploader: FC<FileDragAndDropUploaderProps> = ({
 				setMessage('Only one .csv or xls file is required');
 				setTimeout(() => {
 					setMessage('');
-				}, 3000);
+				},5000);
 				return;
 			}
 			fileList.forEach((file) => {
@@ -92,7 +92,7 @@ const FileDragAndDropUploader: FC<FileDragAndDropUploaderProps> = ({
 				setMessage('Only one .csv or .xls file is required');
 				setTimeout(() => {
 					setMessage('');
-				}, 3000);
+				},5000);
 				return;
 			}
 			fileList.forEach((file) => checkFile(file));
