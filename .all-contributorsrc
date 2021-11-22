@@ -14,6 +14,16 @@
         "code",
         "maintenance"
       ]
+    },
+    {
+      "login": "arpeiks",
+      "name": "Arpeiks",
+      "avatar_url": "https://avatars.githubusercontent.com/u/57372063?v=4",
+      "profile": "https://github.com/arpeiks",
+      "contributions": [
+        "code",
+        "test"
+      ]
     }
   ],
   "contributorsPerLine": 7,
